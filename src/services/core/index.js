@@ -1,8 +1,5 @@
-import simpleService from "./simpleService";
-
-
-
+import userService from "./userService.js";
 
 module.exports = {
-    simpleService
+  userService,
 };

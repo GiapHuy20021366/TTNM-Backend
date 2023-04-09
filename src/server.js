@@ -1,10 +1,14 @@
 import express from "express";
 import viewEngine from "./config/viewEngine";
-import initWebRouters from "./route/web";
-import configMiddlewares from "./route/configMiddlewares";
+import initWebRouters from "./routes/web";
+import configMiddlewares from "./routes/configMiddlewares";
 import http from "http";
+import connectDB from "./config/connectDB";
+// import conn from "./config/connectDB";
 
 require("dotenv").config();
+
+connectDB();
 
 const app = express();
 const server = http.createServer(app);

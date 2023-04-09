@@ -1,4 +1,5 @@
 import authMiddleware from "./auth";
+import userMiddleware from "./user";
 
 const middlewareStorage = (req, res, next) => {
   req.middlewareStorage = {
@@ -10,4 +11,5 @@ const middlewareStorage = (req, res, next) => {
 module.exports = {
   middlewareStorage,
   authMiddleware,
+  userMiddleware,
 };

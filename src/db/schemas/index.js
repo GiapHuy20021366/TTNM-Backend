@@ -1,7 +1,5 @@
-import schemaTest from "./schemaTest";
-
-
+import userSchema from "./userSchema";
 
 module.exports = {
-    schemaTest
-}
+  userSchema,
+};

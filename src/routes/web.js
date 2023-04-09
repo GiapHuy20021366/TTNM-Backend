@@ -7,9 +7,17 @@ const router = express.Router();
 const initUserRouter = () => {
   // For create new user
   router.post(
-    "/api/v1/user",
+    "/api/v1/user/new",
     userMiddleware.userCheckerForCreate,
     userTask.createNewUser
+  );
+  // For get info of a user
+  router.get("/api/auth/v1/user/:id", userTask.getInfOfUser);
+  // For login
+  router.post(
+    "/api/v1/user",
+    userMiddleware.userCheckerForLogin,
+    userTask.loginUser
   );
 };
 

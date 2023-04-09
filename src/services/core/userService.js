@@ -19,7 +19,16 @@ const createNewUser = async (user) => {
 
 const findUserById = async (id) => {
   try {
-    const user = await User.findOne({ id }).exec();
+    const user = await User.findById(id).exec();
+    return user;
+  } catch (error) {
+    return null;
+  }
+};
+
+const findUserByEmail = async (email) => {
+  try {
+    const user = await User.findOne({ email }).exec();
     return user;
   } catch (error) {
     return null;
@@ -51,4 +60,5 @@ module.exports = {
   createNewUser,
   findUserById,
   isDuplicateUser,
+  findUserByEmail,
 };

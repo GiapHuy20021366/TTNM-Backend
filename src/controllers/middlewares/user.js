@@ -15,6 +15,18 @@ const userCheckerForCreate = async (req, res, next) => {
   next();
 };
 
+const userCheckerForLogin = (req, res, next) => {
+  const user = req.body;
+  const requireFields = ["email", "password"];
+  for (const field of requireFields) {
+    if (!user[field]) {
+      return res.status(400).send(`${field} can not empty`);
+    }
+  }
+  next();
+};
+
 module.exports = {
   userCheckerForCreate,
+  userCheckerForLogin,
 };

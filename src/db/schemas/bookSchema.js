@@ -6,8 +6,11 @@ const bookSchema = new Schema({
     type: String,
     index: true,
   },
-  context: String,
-  date: Date,
+  content: String,
+  uploadDate: {
+    type: String,
+    default: Date.now,
+  },
   authors: [
     {
       type: Schema.Types.ObjectId,

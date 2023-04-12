@@ -10,7 +10,7 @@ const configMiddlewares = (app) => {
   app.use(cors({ origin: true }));
   app.use(middlewareStorage);
   app.use(authMiddleware.jwtTokenParser);
-  app.use(/.*api.auth.*/, authMiddleware.jwtTokenValidChecker);
+  app.use(/.*api.*auth.*/, authMiddleware.jwtTokenValidChecker);
 };
 
 export default configMiddlewares;

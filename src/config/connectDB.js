@@ -2,10 +2,23 @@ import mongoose from "mongoose";
 require("dotenv").config();
 
 const useURI = () => {
-  if (process.env.APP_MODE == "development") {
-    return process.env.MONGODB_LOCAL_URI;
+  const map = {
+    development: process.env.MONGODB_LOCAL_URI,
+    product: process.env.MONGODB_CLOUD_URI,
+  };
+  const uri = map[process.env.APP_MODE];
+  if (!uri) {
+    console.error(
+      "Some environment variables is missing. Please check file .env at src/.env"
+    );
+    console.error(
+      `State of environment variables cause error: \nAPP_MODE: ${process.env.APP_MODE}\n`
+    );
   }
-  return process.env.MONGODB_CLOUD_URI;
+  console.info(
+    `INFO: You are using database URI for ${process.env.APP_MODE}. Change APP_MODE at .env file to link to other URI`
+  );
+  return uri;
 };
 
 const connectDB = async () => {

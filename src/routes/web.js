@@ -1,46 +1,6 @@
 import express from "express";
-import { userTask, ttsTask } from "../controllers/tasks";
-import { userMiddleware, authMiddleware } from "../controllers/middlewares";
-import { Method } from "../constant";
-
-const apis = {
-  user: {
-    register: {
-      method: Method.POST,
-      path: "/api/v1/user/register",
-      auth: false,
-      middlewares: [userMiddleware.userCheckerForCreate],
-      task: userTask.createNewUser,
-      description: "Sign up a new user",
-    },
-    getInfor: {
-      method: Method.GET,
-      path: "/api/v1/user/:id",
-      auth: true,
-      middlewares: [],
-      task: userTask.getInfOfUser,
-      description: "Get infor of a user",
-    },
-    login: {
-      method: Method.POST,
-      path: "/api/v1/user/login",
-      auth: false,
-      middlewares: [userMiddleware.userCheckerForLogin],
-      task: userTask.loginUser,
-      description: "Login for user",
-    },
-  },
-  tts: {
-    streamTTS: {
-      method: Method.GET,
-      path: "/api/v1/tts/:text",
-      auth: true,
-      middlewares: [],
-      task: ttsTask.streamTTS,
-      description: "Stream audio for a text",
-    },
-  },
-};
+import { authMiddleware } from "../controllers/middlewares";
+import apis from "./apis";
 
 const initWebRouters = (app) => {
   const router = new express.Router();

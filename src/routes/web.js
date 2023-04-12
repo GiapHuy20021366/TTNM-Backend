@@ -1,5 +1,5 @@
 import express from "express";
-import { userTask } from "../controllers/tasks/index";
+import { userTask, ttsTask } from "../controllers/tasks/index";
 import { userMiddleware } from "../controllers/middlewares/index";
 
 const router = express.Router();
@@ -21,6 +21,11 @@ const initUserRouter = () => {
   );
 };
 
+const initStreamTTSRouter = () => {
+  // text to speech streaming
+  router.get("/api/v1/tts/:text", ttsTask.streamTTS);
+};
+
 const initWebRouters = (app) => {
   router.get("/", (req, res) => {
     return res.status(200).send("Hello");
@@ -28,6 +33,7 @@ const initWebRouters = (app) => {
 
   // user router
   initUserRouter();
+  initStreamTTSRouter();
 
   return app.use("/", router);
 };

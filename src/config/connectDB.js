@@ -1,8 +1,15 @@
 import mongoose from "mongoose";
 require("dotenv").config();
 
+const useURI = () => {
+  if (process.env.APP_MODE == "development") {
+    return process.env.MONGODB_LOCAL_URI;
+  }
+  return process.env.MONGODB_CLOUD_URI;
+};
+
 const connectDB = async () => {
-  mongoose.connect(process.env.MONGODB_CLOUD_URI, {
+  mongoose.connect(useURI(), {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });

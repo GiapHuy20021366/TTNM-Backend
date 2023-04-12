@@ -1,5 +1,5 @@
-import userTask from "./userTask.js";
-import ttsTask from "./ttsTask.js";
+import userTask from "./userTask";
+import ttsTask from "./ttsTask";
 
 module.exports = {
   userTask,

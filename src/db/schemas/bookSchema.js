@@ -14,6 +14,12 @@ const bookSchema = new Schema({
       ref: "Author",
     },
   ],
+  images: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Image",
+    },
+  ],
   views: Number,
   likes: Number,
 });

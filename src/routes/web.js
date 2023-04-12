@@ -1,6 +1,6 @@
 import express from "express";
-import { userTask, ttsTask } from "../controllers/tasks/index";
-import { userMiddleware } from "../controllers/middlewares/index";
+import { userTask, ttsTask } from "../controllers/tasks";
+import { userMiddleware } from "../controllers/middlewares";
 
 const router = express.Router();
 

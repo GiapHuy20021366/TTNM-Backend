@@ -4,7 +4,6 @@ import initWebRouters from "./routes/web";
 import configMiddlewares from "./routes/configMiddlewares";
 import http from "http";
 import connectDB from "./config/connectDB";
-// import conn from "./config/connectDB";
 
 require("dotenv").config();
 

@@ -13,5 +13,11 @@ const authorSchema = new Schema({
       ref: "Book",
     },
   ],
+  images: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Image",
+    },
+  ],
 });
 export default authorSchema;

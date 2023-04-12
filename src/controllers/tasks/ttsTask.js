@@ -1,4 +1,4 @@
-import { ttsService } from "../../services/core/index";
+import { ttsService } from "../../services/core";
 
 const streamTTS = (req, res) => {
   const text = req?.params?.text;

@@ -1,5 +1,5 @@
-import { User } from "../../db/models/index";
-import { bcryptService } from "../utils/index";
+import { User } from "../../db/models";
+import { bcryptService } from "../utils";
 
 const createNewUser = async (user) => {
   try {

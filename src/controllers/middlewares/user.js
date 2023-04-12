@@ -1,4 +1,4 @@
-import { userService } from "../../services/core/index";
+import { userService } from "../../services/core";
 
 const userCheckerForCreate = async (req, res, next) => {
   const user = req.body;

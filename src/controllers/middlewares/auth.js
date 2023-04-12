@@ -1,4 +1,4 @@
-import { jwtService } from "../../services/utils/index";
+import { jwtService } from "../../services/utils";
 
 const jwtTokenParser = (req, res, next) => {
   const token = req?.headers?.authorization;

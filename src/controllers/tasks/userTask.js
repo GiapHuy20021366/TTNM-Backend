@@ -1,5 +1,5 @@
-import { userService } from "../../services/core/index";
-import { jwtService, bcryptService } from "../../services/utils/index";
+import { userService } from "../../services/core";
+import { jwtService, bcryptService } from "../../services/utils";
 
 const createNewUser = async (req, res) => {
   const user = req.body;

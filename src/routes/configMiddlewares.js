@@ -1,10 +1,7 @@
 import methodOverride from "method-override";
 import cors from "cors";
 import bodyParser from "body-parser";
-import {
-  middlewareStorage,
-  authMiddleware,
-} from "../controllers/middlewares/index";
+import { middlewareStorage, authMiddleware } from "../controllers/middlewares";
 
 const configMiddlewares = (app) => {
   app.use(bodyParser.json());

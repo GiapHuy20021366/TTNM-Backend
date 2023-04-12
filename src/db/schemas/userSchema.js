@@ -10,7 +10,12 @@ const userSchema = new Schema({
     type: String,
     index: true,
   },
-  avatar: String,
+  images: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Image",
+    },
+  ],
   role: String,
   createAt: { type: Date, default: Date.now },
 });

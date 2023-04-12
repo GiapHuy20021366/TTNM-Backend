@@ -37,7 +37,7 @@ const apis = {
       auth: true,
       middlewares: [],
       task: ttsTask.streamTTS,
-      description: "stream audio for a text",
+      description: "Stream audio for a text",
     },
   },
 };
@@ -56,14 +56,14 @@ const initWebRouters = (app) => {
 
       if (!task) {
         console.warn(
-          `ERROR: No task found for executing api ${path} method ${method}. This api using this method will be reject`
+          `ERROR: No task found for executing api ${path} method ${method}. This api  will be reject`
         );
         return;
       }
 
       if (!router[method]) {
         console.warn(
-          `WARNING: Express router has no support for method ${method}. This api using this method will be reject`
+          `WARNING: Express router has no support for method ${method}. Apis using this method will be reject`
         );
         return;
       }
@@ -78,7 +78,15 @@ const initWebRouters = (app) => {
   });
 
   router.get("/api/v1/list", (req, res) => {
-    return res.status(200).send(apis);
+    return res
+      .status(200)
+      .json(
+        JSON.parse(
+          JSON.stringify(apis, (key, value) =>
+            typeof value === "function" ? value.name : value
+          )
+        )
+      );
   });
 
   router.get("*", function (req, res) {

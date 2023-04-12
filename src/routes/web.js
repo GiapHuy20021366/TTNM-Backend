@@ -15,7 +15,7 @@ const apis = {
     },
     getInfor: {
       method: Method.GET,
-      path: "/api/v1/user/infor/:id",
+      path: "/api/v1/user/:id",
       auth: true,
       middlewares: [],
       task: userTask.getInfOfUser,
@@ -42,9 +42,9 @@ const apis = {
   },
 };
 
-const router = new express.Router();
-
 const initWebRouters = (app) => {
+  const router = new express.Router();
+
   Object.keys(apis).forEach((componentName) => {
     const component = apis[componentName];
     Object.keys(component).forEach((apiName) => {
@@ -68,12 +68,15 @@ const initWebRouters = (app) => {
         return;
       }
       // If this API need authorization, add auth middlewares
+      let authMiddlewares = [];
       if (auth) {
-        app.use(path, authMiddleware.jwtTokenValidChecker);
-        app.use(path, authMiddleware.jwtTokenParser);
+        authMiddlewares.push(
+          authMiddleware.jwtTokenValidChecker,
+          authMiddleware.jwtTokenParser
+        );
       }
       // App middlewares and task to router
-      router[method](path, ...middlewares, task);
+      router[method](path, ...authMiddlewares, ...middlewares, task);
     });
   });
 
@@ -90,7 +93,7 @@ const initWebRouters = (app) => {
   });
 
   router.get("*", function (req, res) {
-    res.redirect("/api/v1/list");
+    res.status(404).send("404 not found");
   });
   return app.use("/", router);
 };

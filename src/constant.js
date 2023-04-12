@@ -6,3 +6,11 @@ export const collections = {
   author: process.env.AUTHOR_COLLECTION || "authors",
   image: process.env.IMAGE_COLLECTION || "images",
 };
+
+export class Method {
+  static POST = "post";
+  static GET = "get";
+  static DELETE = "delete";
+  static UPDATE = "update";
+  static PUT = "put";
+}

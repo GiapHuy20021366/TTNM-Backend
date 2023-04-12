@@ -1,40 +1,89 @@
 import express from "express";
 import { userTask, ttsTask } from "../controllers/tasks";
-import { userMiddleware } from "../controllers/middlewares";
+import { userMiddleware, authMiddleware } from "../controllers/middlewares";
+import { Method } from "../constant";
 
-const router = express.Router();
-
-const initUserRouter = () => {
-  // For create new user
-  router.post(
-    "/api/v1/user/new",
-    userMiddleware.userCheckerForCreate,
-    userTask.createNewUser
-  );
-  // For get info of a user
-  router.get("/api/auth/v1/user/:id", userTask.getInfOfUser);
-  // For login
-  router.post(
-    "/api/v1/user",
-    userMiddleware.userCheckerForLogin,
-    userTask.loginUser
-  );
+const apis = {
+  user: {
+    register: {
+      method: Method.POST,
+      path: "/api/v1/user/register",
+      auth: false,
+      middlewares: [userMiddleware.userCheckerForCreate],
+      task: userTask.createNewUser,
+      description: "Sign up a new user",
+    },
+    getInfor: {
+      method: Method.GET,
+      path: "/api/v1/user/infor/:id",
+      auth: true,
+      middlewares: [],
+      task: userTask.getInfOfUser,
+      description: "Get infor of a user",
+    },
+    login: {
+      method: Method.POST,
+      path: "/api/v1/user/login",
+      auth: false,
+      middlewares: [userMiddleware.userCheckerForLogin],
+      task: userTask.loginUser,
+      description: "Login for user",
+    },
+  },
+  tts: {
+    streamTTS: {
+      method: Method.GET,
+      path: "/api/v1/tts/:text",
+      auth: true,
+      middlewares: [],
+      task: ttsTask.streamTTS,
+      description: "stream audio for a text",
+    },
+  },
 };
 
-const initStreamTTSRouter = () => {
-  // text to speech streaming
-  router.get("/api/v1/tts/:text", ttsTask.streamTTS);
-};
+const router = new express.Router();
 
 const initWebRouters = (app) => {
-  router.get("/", (req, res) => {
-    return res.status(200).send("Hello");
+  Object.keys(apis).forEach((componentName) => {
+    const component = apis[componentName];
+    Object.keys(component).forEach((apiName) => {
+      const api = component[apiName];
+      const { method, path, auth, middlewares, task } = api;
+      if (!middlewares) {
+        middlewares = [];
+      }
+
+      if (!task) {
+        console.warn(
+          `ERROR: No task found for executing api ${path} method ${method}. This api using this method will be reject`
+        );
+        return;
+      }
+
+      if (!router[method]) {
+        console.warn(
+          `WARNING: Express router has no support for method ${method}. This api using this method will be reject`
+        );
+        return;
+      }
+      // If this API need authorization, add auth middlewares
+      if (auth) {
+        app.use(path, authMiddleware.jwtTokenValidChecker);
+        app.use(path, authMiddleware.jwtTokenParser);
+      }
+      // App middlewares and task to router
+      router[method](path, ...middlewares, task);
+    });
   });
 
-  // user router
-  initUserRouter();
-  initStreamTTSRouter();
+  router.get("/api/v1/list", (req, res) => {
+    return res.status(200).send(apis);
+  });
 
+  router.get("*", function (req, res) {
+    res.redirect("/api/v1/list");
+  });
   return app.use("/", router);
 };
 

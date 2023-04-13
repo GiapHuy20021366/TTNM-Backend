@@ -14,3 +14,9 @@ export class Method {
   static UPDATE = "update";
   static PUT = "put";
 }
+
+export class Role {
+  static USER = "user";
+  static ADMIN = "admin";
+  static ANY = "any";
+}

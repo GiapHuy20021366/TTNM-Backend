@@ -10,6 +10,7 @@ const authorSchema = new Schema({
     index: true,
     unique: true,
   },
+  intro: String,
   birth: Date,
   books: [
     {

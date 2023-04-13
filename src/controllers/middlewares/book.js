@@ -35,14 +35,14 @@ const authorParser = async (req, res, next) => {
       authors.map(async (author) => {
         const { id, name, alias } = author;
         if (id) {
-          const authorDB = await authorService.getAuthorById(id);
+          const authorDB = await authorService.findAuthorById(id);
           if (authorDB) {
             authorParser.existed.push(authorDB);
           }
           return;
         }
         if (alias) {
-          const authorDB = await authorService.getAuthorByAlias(alias);
+          const authorDB = await authorService.findAuthorByAlias(alias);
           if (authorDB) {
             authorParser.existed.push(authorDB);
             return;
@@ -58,12 +58,14 @@ const authorParser = async (req, res, next) => {
 const authorCreatorIfNotExist = async (req, res, next) => {
   const notExisted = req?.middlewareStorage?.authorParser?.notExisted;
   if (notExisted && notExisted.length > 0) {
-    notExisted.forEach(async (author) => {
-      const authorDB = await authorService.createNewAuthor(author);
-      if (authorDB) {
-        req.middlewareStorage.authorParser.existed.push(authorDB);
-      }
-    });
+    await Promise.all(
+      notExisted.map(async (author) => {
+        const authorDB = await authorService.createNewAuthor(author);
+        if (authorDB) {
+          req.middlewareStorage.authorParser.existed.push(authorDB);
+        }
+      })
+    );
   }
   next();
 };

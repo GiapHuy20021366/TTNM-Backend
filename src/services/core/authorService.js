@@ -1,6 +1,6 @@
 import { Author } from "../../db/models";
 
-const getAuthorById = async (id) => {
+const findAuthorById = async (id) => {
   try {
     const author = await Author.findById(id).exec();
     return author;
@@ -9,7 +9,7 @@ const getAuthorById = async (id) => {
   }
 };
 
-const getAuthorByAlias = async (alias) => {
+const findAuthorByAlias = async (alias) => {
   try {
     const author = await Author.findOne({ alias }).exec();
     return author;
@@ -28,8 +28,56 @@ const createNewAuthor = async (author) => {
   }
 };
 
+const removeBookRef = async (bookDB) => {
+  const authorIDs = bookDB.authors;
+  if (authorIDs) {
+    await Promise.all(
+      authorIDs.map(async (authorID) => {
+        await Author.updateOne(
+          { _id: authorID },
+          {
+            $pull: {
+              books: bookDB._id,
+            },
+          }
+        );
+      })
+    );
+  }
+};
+
+const addBookRef = async (bookDB) => {
+  const authorIDs = bookDB.authors;
+  if (authorIDs) {
+    await Promise.all(
+      authorIDs.map(async (authorID) => {
+        await Author.updateOne(
+          { _id: authorID },
+          {
+            $addToSet: {
+              books: bookDB._id,
+            },
+          }
+        );
+      })
+    );
+  }
+};
+
+const findAllAuthors = async () => {
+  try {
+    const authors = await Author.find().exec();
+    return authors;
+  } catch (error) {
+    return null;
+  }
+};
+
 module.exports = {
-  getAuthorById,
-  getAuthorByAlias,
+  findAuthorById,
+  findAuthorByAlias,
   createNewAuthor,
+  addBookRef,
+  removeBookRef,
+  findAllAuthors,
 };

@@ -3,6 +3,9 @@ import { jwtService, bcryptService } from "../../services/utils";
 
 const createNewUser = async (req, res) => {
   const user = req.body;
+  if (user.role) {
+    delete user.role;
+  }
   const newUser = await userService.createNewUser(user);
   if (!newUser) {
     return res.status(500).send("Internal Server Error");

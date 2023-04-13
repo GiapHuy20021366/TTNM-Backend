@@ -1,6 +1,7 @@
 import express from "express";
 import { authMiddleware } from "../controllers/middlewares";
 import apis from "./apis";
+import { Role } from "../constant";
 
 const initWebRouters = (app) => {
   const router = new express.Router();
@@ -9,7 +10,7 @@ const initWebRouters = (app) => {
     const component = apis[componentName];
     Object.keys(component).forEach((apiName) => {
       const api = component[apiName];
-      const { method, path, auth, middlewares, task } = api;
+      const { method, path, auth, permissions, middlewares, task } = api;
       if (!middlewares) {
         middlewares = [];
       }
@@ -34,6 +35,15 @@ const initWebRouters = (app) => {
           authMiddleware.jwtTokenValidChecker,
           authMiddleware.jwtTokenParser
         );
+      }
+
+      // Apply middlewares corresponding permissions
+      if (permissions && permissions.length > 0) {
+        permissions.forEach((role) => {
+          if (role == Role.ADMIN) {
+            authMiddlewares.push(authMiddleware.adminPermissionChecker);
+          }
+        });
       }
       // App middlewares and task to router
       router[method](path, ...authMiddlewares, ...middlewares, task);

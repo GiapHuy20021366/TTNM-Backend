@@ -1,17 +1,9 @@
 import { Book } from "../../db/models";
 
-const createBook = async (book, authorsDB = []) => {
+const createBook = async (book) => {
   const bookDB = new Book(book);
   try {
     await bookDB.save();
-    if (authorsDB) {
-      await Promise.all(
-        authorsDB.map(async (author) => {
-          author.books.push(bookDB._id);
-          await author.save();
-        })
-      );
-    }
     return bookDB;
   } catch (error) {
     console.log(error);
@@ -37,8 +29,20 @@ const findBookById = async (id) => {
   }
 };
 
+const removeBookById = async (id) => {
+  try {
+    const deletedBook = await Book.findByIdAndRemove(id)
+      .select("-content")
+      .exec();
+    return deletedBook;
+  } catch (error) {
+    return null;
+  }
+};
+
 module.exports = {
   createBook,
   findAllBooks,
   findBookById,
+  removeBookById,
 };

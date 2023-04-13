@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 require("dotenv").config();
-import initAdmins from "../db/migrates/initAdmins";
 
 const useURI = () => {
   const map = {

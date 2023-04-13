@@ -1,7 +1,7 @@
 import { Schema } from "mongoose";
 
 const imageSchema = new Schema({
-  _id: Schema.Types.ObjectId,
+  name: String,
   url: String,
   createAt: { type: Date, default: Date.now },
 });

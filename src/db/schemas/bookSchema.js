@@ -1,12 +1,12 @@
 import { Schema } from "mongoose";
 
 const bookSchema = new Schema({
-  _id: Schema.Types.ObjectId,
   title: {
     type: String,
     index: true,
   },
   content: String,
+  intro: String,
   uploadDate: {
     type: String,
     default: Date.now,
@@ -23,7 +23,13 @@ const bookSchema = new Schema({
       ref: "Image",
     },
   ],
-  views: Number,
-  likes: Number,
+  views: {
+    type: Number,
+    default: 0,
+  },
+  likes: {
+    type: Number,
+    default: 0,
+  },
 });
 export default bookSchema;

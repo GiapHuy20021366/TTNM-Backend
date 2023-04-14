@@ -1,5 +1,5 @@
 import { Method } from "../../constant";
-import { userMiddleware } from "../../controllers/middlewares";
+import { userMiddleware, imageMiddleware } from "../../controllers/middlewares";
 import { userTask } from "../../controllers/tasks";
 import { Role } from "../../constant";
 
@@ -8,7 +8,10 @@ const register = {
   path: "/api/v1/user/register",
   auth: false,
   permissions: [Role.ANY],
-  middlewares: [userMiddleware.userCheckerForCreate],
+  middlewares: [
+    userMiddleware.userCheckerForCreate,
+    imageMiddleware.avatarUpload,
+  ],
   task: userTask.createNewUser,
   description: "Sign up a new user",
 };

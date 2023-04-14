@@ -17,12 +17,7 @@ const userSchema = new Schema({
     type: String,
     default: Role.USER,
   },
-  images: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Image",
-    },
-  ],
+  avatar: String,
   createAt: { type: Date, default: Date.now },
 });
 export default userSchema;

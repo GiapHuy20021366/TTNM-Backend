@@ -3,10 +3,16 @@ import { authorService } from "../../services/core";
 const bookCheckerForCreate = (req, res, next) => {
   const { title, content } = req.body;
   if (!title) {
-    return res.status(400).send("Title can not empty");
+    return res.status(400).json({
+      status: 400,
+      err: "Title can not empty",
+    });
   }
   if (!content) {
-    return res.status(400).send("Content can not empty");
+    return res.status(400).json({
+      status: 400,
+      err: "Content can not empty",
+    });
   }
 
   next();
@@ -26,9 +32,10 @@ const authorParser = async (req, res, next) => {
     });
 
     if (!isAllValid) {
-      return res
-        .status(400)
-        .send(`Each author should contain id or alias or (name and alias)`);
+      return res.status(400).json({
+        status: 400,
+        err: `Each author should contain id or alias or (name and alias)`,
+      });
     }
 
     await Promise.all(

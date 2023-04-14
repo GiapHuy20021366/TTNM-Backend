@@ -16,11 +16,17 @@ const jwtTokenParser = (req, res, next) => {
 const jwtTokenValidChecker = (req, res, next) => {
   const token = req?.headers?.authorization;
   if (!token) {
-    return res.status(403).send("Token not found");
+    return res.status(403).json({
+      status: 403,
+      err: "Token not found",
+    });
   }
   const data = jwtService.verifyToken(token);
   if (!data) {
-    return res.status(403).send("Token invalid");
+    return res.status(403).json({
+      status: 403,
+      err: "Token invalid",
+    });
   }
   next();
 };
@@ -28,16 +34,16 @@ const jwtTokenValidChecker = (req, res, next) => {
 const adminPermissionChecker = (req, res, next) => {
   const auth = req?.middlewareStorage?.authorization;
   if (!auth?.role) {
-    return res
-      .status(500)
-      .json("Internal server error. Invalid Token cause by login method");
+    return res.status(500).json({
+      status: 500,
+      err: "Internal server error. Invalid Token cause by login method",
+    });
   }
   if (auth.role != Role.ADMIN) {
-    return res
-      .status(403)
-      .send(
-        "Authentication failed. Not permission. Calling this api need ADMIN permission"
-      );
+    return res.status(403).json({
+      status: 403,
+      err: "Authentication failed. Not permission. Calling this api need ADMIN permission",
+    });
   }
   next();
 };

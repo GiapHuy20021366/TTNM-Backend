@@ -1,4 +1,7 @@
-import { authorMiddleware } from "../../controllers/middlewares";
+import {
+  authorMiddleware,
+  imageMiddleware,
+} from "../../controllers/middlewares";
 import { authorTask } from "../../controllers/tasks";
 import { Method } from "../../constant";
 import { Role } from "../../constant";
@@ -8,7 +11,10 @@ const createNewAuthor = {
   path: "/api/v1/authors",
   auth: true,
   permissions: [Role.ADMIN],
-  middlewares: [authorMiddleware.authorCheckerForCreate],
+  middlewares: [
+    authorMiddleware.authorCheckerForCreate,
+    imageMiddleware.avatarUpload,
+  ],
   task: authorTask.createNewAuthor,
   description: "Create a new author",
 };

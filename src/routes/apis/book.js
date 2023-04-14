@@ -1,4 +1,4 @@
-import { bookMiddleware } from "../../controllers/middlewares";
+import { bookMiddleware, imageMiddleware } from "../../controllers/middlewares";
 import { bookTask } from "../../controllers/tasks";
 import { ttsTask } from "../../controllers/tasks";
 import { Method } from "../../constant";
@@ -12,7 +12,12 @@ const uploadBook = {
   path: "/api/v1/books",
   auth: true,
   permissions: [Role.ADMIN],
-  middlewares: [bookCheckerForCreate, authorParser, authorCreatorIfNotExist],
+  middlewares: [
+    bookCheckerForCreate,
+    authorParser,
+    authorCreatorIfNotExist,
+    imageMiddleware.imagesUpload,
+  ],
   task: bookTask.uploadBook,
   description:
     "Upload a book. Each author must contain id or alias or (name and alias). Server will reject author having not found id, but will create new one when not found alias",

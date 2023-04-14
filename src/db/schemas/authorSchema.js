@@ -19,12 +19,6 @@ const authorSchema = new Schema({
       default: [],
     },
   ],
-  images: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Image",
-      default: [],
-    },
-  ],
+  avatar: String,
 });
 export default authorSchema;

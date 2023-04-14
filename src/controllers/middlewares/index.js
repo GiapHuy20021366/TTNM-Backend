@@ -2,6 +2,7 @@ import authMiddleware from "./auth";
 import userMiddleware from "./user";
 import bookMiddleware from "./book";
 import authorMiddleware from "./author";
+import imageMiddleware from "./image";
 
 const middlewareStorage = (req, res, next) => {
   req.middlewareStorage = {
@@ -16,4 +17,5 @@ module.exports = {
   userMiddleware,
   bookMiddleware,
   authorMiddleware,
+  imageMiddleware,
 };

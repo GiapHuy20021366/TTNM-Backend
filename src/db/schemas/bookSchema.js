@@ -17,12 +17,7 @@ const bookSchema = new Schema({
       ref: "Author",
     },
   ],
-  images: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Image",
-    },
-  ],
+  images: [String],
   views: {
     type: Number,
     default: 0,

@@ -5,12 +5,18 @@ const userCheckerForCreate = async (req, res, next) => {
   const requireFields = ["username", "email", "password", "role"];
   for (const field of requireFields) {
     if (!user[field]) {
-      return res.status(400).send(`${field} can not empty`);
+      return res.status(400).json({
+        status: 400,
+        err: `${field} can not empty`,
+      });
     }
   }
   const isDuplicated = await userService.isDuplicateUser(user);
   if (isDuplicated) {
-    return res.status(400).send("Username or email existed");
+    return res.status(400).json({
+      status: 400,
+      err: "Username or email existed",
+    });
   }
   next();
 };
@@ -20,7 +26,10 @@ const userCheckerForLogin = (req, res, next) => {
   const requireFields = ["email", "password"];
   for (const field of requireFields) {
     if (!user[field]) {
-      return res.status(400).send(`${field} can not empty`);
+      return res.status(400).json({
+        status: 400,
+        err: `${field} can not empty`,
+      });
     }
   }
   next();

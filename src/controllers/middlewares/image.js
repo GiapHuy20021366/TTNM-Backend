@@ -19,7 +19,7 @@ const avatarUpload = async (req, res, next) => {
 const imagesUpload = async (req, res, next) => {
   const { images } = req.body;
 
-  if (images) {
+  if (images && images.length > 0) {
     const imagesDB = await imageService.uploadImages(images);
     if (!imagesDB) {
       return res.status(500).json({
@@ -27,8 +27,9 @@ const imagesUpload = async (req, res, next) => {
         err: "Internal server error",
       });
     }
+    console.log(imagesDB);
     req.body.images = imagesDB.map((imageDB) => {
-      imageDB.url;
+      return imageDB.url;
     });
   }
   next();

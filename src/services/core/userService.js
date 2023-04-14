@@ -1,5 +1,5 @@
 import { User } from "../../db/models";
-import { bcryptService } from "../utils";
+import { bcryptService, jwtService } from "../utils";
 
 const createNewUser = async (user) => {
   try {
@@ -57,9 +57,20 @@ const isDuplicateUser = async (user) => {
   }
 };
 
+const _7Days = 60 * 60 * 24 * 7;
+const generateToken = (userDB, expiresIn = _7Days) => {
+  const includeFields = ["-id", "email", "role", "username"];
+  const user = {};
+  includeFields.forEach((field) => {
+    user[field] = userDB[field];
+  });
+  return jwtService.signToken(user, expiresIn);
+};
+
 module.exports = {
   createNewUser,
   findUserById,
   isDuplicateUser,
   findUserByEmail,
+  generateToken,
 };

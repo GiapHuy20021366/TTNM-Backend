@@ -14,7 +14,7 @@ const createNewUser = async (req, res) => {
     ...newUser._doc,
   };
   delete resUser.password;
-  const token = jwtService.signToken(resUser);
+  const token = userService.generateToken(resUser);
   return res.status(200).json({
     data: resUser,
     token,
@@ -55,7 +55,7 @@ const loginUser = async (req, res) => {
     return res.status(400).send("Password incorrect");
   }
   delete resUser.password;
-  const token = jwtService.signToken(resUser);
+  const token = userService.generateToken(resUser);
   return res.status(200).json({
     data: resUser,
     token,

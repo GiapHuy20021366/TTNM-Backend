@@ -1,5 +1,6 @@
 import { bookMiddleware } from "../../controllers/middlewares";
 import { bookTask } from "../../controllers/tasks";
+import { ttsTask } from "../../controllers/tasks";
 import { Method } from "../../constant";
 import { Role } from "../../constant";
 
@@ -47,9 +48,20 @@ const removeOneBook = {
   description: "Remove a book by id",
 };
 
+const bookTTS = {
+  method: Method.GET,
+  path: "/api/v1/books/tts/:text",
+  auth: true,
+  permissions: [Role.ADMIN, Role.USER],
+  middlewares: [],
+  task: ttsTask.streamTTS,
+  description: "Stream audio for a text of book",
+};
+
 module.exports = {
   uploadBook,
   getAllBooks,
   getOneBook,
   removeOneBook,
+  bookTTS,
 };

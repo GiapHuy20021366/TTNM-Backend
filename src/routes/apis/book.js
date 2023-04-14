@@ -80,7 +80,7 @@ const updateBook = {
   ],
   task: bookTask.updateBook,
   description:
-    "Upload a book. Each author must contain id or alias or (name and alias). Server will reject author having not found id, but will create new one when not found alias",
+    "Update a book. Each author must contain id or alias or (name and alias). Server will reject author having not found id, but will create new one when not found alias",
 };
 
 module.exports = {

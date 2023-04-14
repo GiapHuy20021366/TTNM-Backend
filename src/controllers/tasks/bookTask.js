@@ -13,6 +13,7 @@ const uploadBook = async (req, res) => {
     title,
     content,
     authors: authorIDs,
+    images,
   };
   // Create book
   const bookDB = await bookService.createBook(book);

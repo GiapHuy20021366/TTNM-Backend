@@ -1,7 +1,7 @@
 import express from "express";
 import { authMiddleware } from "../controllers/middlewares";
 import apis from "./apis";
-import { Role } from "../constant";
+import { Role, roleLevels } from "../constant";
 
 const initWebRouters = (app) => {
   const router = new express.Router();
@@ -39,11 +39,12 @@ const initWebRouters = (app) => {
 
       // Apply middlewares corresponding permissions
       if (permissions && permissions.length > 0) {
-        permissions.forEach((role) => {
-          if (role == Role.ADMIN) {
-            authMiddlewares.push(authMiddleware.adminPermissionChecker);
-          }
+        const minLevelRole = permissions.reduce((role1, role2) => {
+          return roleLevels[role1] < roleLevels[role2] ? role1 : role2;
         });
+        if (minLevelRole == Role.ADMIN) {
+          authMiddlewares.push(authMiddleware.adminPermissionChecker);
+        }
       }
       // App middlewares and task to router
       router[method](path, ...authMiddlewares, ...middlewares, task);

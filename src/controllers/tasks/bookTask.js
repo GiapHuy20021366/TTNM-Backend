@@ -46,7 +46,7 @@ const getOneBook = async (req, res) => {
   }
   const book = await bookService.findBookById(id);
   if (!book) {
-    return res.status(404).send(`No book with id ${id}found`);
+    return res.status(404).send(`No book with id ${id} found`);
   }
   return res.status(200).json(book);
 };

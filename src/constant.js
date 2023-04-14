@@ -20,3 +20,9 @@ export class Role {
   static ADMIN = "admin";
   static ANY = "any";
 }
+
+export const roleLevels = {
+  [Role.ADMIN]: 100,
+  [Role.USER]: 0,
+  [Role.ANY]: -100,
+};

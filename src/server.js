@@ -20,8 +20,6 @@ configMiddlewares(app);
 viewEngine(app);
 initWebRouters(app);
 
-// connectDB();
-
 let port = process.env.PORT || 2002;
 
 server.listen(port, () => {

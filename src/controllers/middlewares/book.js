@@ -1,4 +1,4 @@
-import { authorService } from "../../services/core";
+import { authorService, bookService } from "../../services/core";
 
 const bookCheckerForCreate = (req, res, next) => {
   const { title, content } = req.body;
@@ -15,6 +15,26 @@ const bookCheckerForCreate = (req, res, next) => {
     });
   }
 
+  next();
+};
+
+const bookGetterForUpdate = async (req, res, next) => {
+  const { id } = req.params;
+  if (!id) {
+    return res.status(400).json({
+      status: 400,
+      err: "No id found in request",
+    });
+  }
+
+  const bookDB = await bookService.findBookById(id);
+  if (!bookDB) {
+    return res.status(404).json({
+      status: 404,
+      err: `No book with id ${id} found`,
+    });
+  }
+  req.middlewareStorage.bookGetter = bookDB;
   next();
 };
 
@@ -81,4 +101,5 @@ module.exports = {
   bookCheckerForCreate,
   authorParser,
   authorCreatorIfNotExist,
+  bookGetterForUpdate,
 };

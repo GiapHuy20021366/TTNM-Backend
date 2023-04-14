@@ -19,7 +19,7 @@ const avatarUpload = async (req, res, next) => {
 const imagesUpload = async (req, res, next) => {
   const { images } = req.body;
 
-  if (avatar) {
+  if (images) {
     const imagesDB = await imageService.uploadImages(images);
     if (!imagesDB) {
       return res.status(500).json({

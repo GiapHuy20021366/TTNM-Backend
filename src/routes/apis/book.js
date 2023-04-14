@@ -4,8 +4,12 @@ import { ttsTask } from "../../controllers/tasks";
 import { Method } from "../../constant";
 import { Role } from "../../constant";
 
-const { bookCheckerForCreate, authorParser, authorCreatorIfNotExist } =
-  bookMiddleware;
+const {
+  bookCheckerForCreate,
+  authorParser,
+  authorCreatorIfNotExist,
+  bookGetterForUpdate,
+} = bookMiddleware;
 
 const uploadBook = {
   method: Method.POST,
@@ -63,10 +67,27 @@ const bookTTS = {
   description: "Stream audio for a text of book",
 };
 
+const updateBook = {
+  method: Method.PUT,
+  path: "/api/v1/books/:id",
+  auth: true,
+  permissions: [Role.ADMIN],
+  middlewares: [
+    bookGetterForUpdate,
+    authorParser,
+    authorCreatorIfNotExist,
+    imageMiddleware.imagesUpload,
+  ],
+  task: bookTask.updateBook,
+  description:
+    "Upload a book. Each author must contain id or alias or (name and alias). Server will reject author having not found id, but will create new one when not found alias",
+};
+
 module.exports = {
   uploadBook,
   getAllBooks,
   getOneBook,
   removeOneBook,
   bookTTS,
+  updateBook,
 };

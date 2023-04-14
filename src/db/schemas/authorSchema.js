@@ -12,13 +12,6 @@ const authorSchema = new Schema({
   },
   intro: String,
   birth: Date,
-  books: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Book",
-      default: [],
-    },
-  ],
   avatar: String,
 });
 export default authorSchema;

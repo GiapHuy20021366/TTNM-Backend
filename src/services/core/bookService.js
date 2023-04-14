@@ -40,9 +40,24 @@ const removeBookById = async (id) => {
   }
 };
 
+const updateBook = async (bookDB, replacer) => {
+  Object.keys(replacer).forEach((key) => {
+    if (replacer[key]) {
+      bookDB[key] = replacer[key];
+    }
+  });
+  try {
+    await bookDB.save();
+    return bookDB;
+  } catch (error) {
+    return null;
+  }
+};
+
 module.exports = {
   createBook,
   findAllBooks,
   findBookById,
   removeBookById,
+  updateBook,
 };

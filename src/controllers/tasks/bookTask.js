@@ -23,14 +23,11 @@ const uploadBook = async (req, res) => {
       err: "Internal server error",
     });
   }
-  // Add ref to book
-  await authorService.addBookRef(bookDB);
 
   return res.status(200).json({
     data: bookDB,
     status: 200,
   });
-  //   return res.status(200).send("This feature is implementing...");
 };
 
 const getAllBooks = async (req, res) => {
@@ -86,7 +83,43 @@ const removeOneBook = async (req, res) => {
   // Remove books on author side
   await authorService.removeBookRef(bookDB);
   return res.status(200).json({
-    data: bookDB,
+    data: "Delete success",
+    status: 200,
+  });
+};
+
+const updateBook = async (req, res) => {
+  const { title, content, intro, images } = req.body;
+  const authorsDB = req?.middlewareStorage?.authorParser?.existed;
+  const bookDB = req?.middlewareStorage?.bookGetter;
+  const authorIDs = [];
+
+  authorsDB &&
+    authorsDB.forEach((author) => {
+      authorIDs.push(author._id);
+    });
+
+  // is replace title?
+  const replacer = {
+    title,
+    content,
+    images,
+    authors: authorIDs,
+    intro,
+  };
+
+  // update book
+  const updatedBook = await bookService.updateBook(bookDB, replacer);
+
+  if (!updatedBook) {
+    return res.status(500).json({
+      status: 500,
+      err: "Internal server error",
+    });
+  }
+
+  return res.status(200).json({
+    data: updatedBook,
     status: 200,
   });
 };
@@ -96,4 +129,5 @@ module.exports = {
   getAllBooks,
   getOneBook,
   removeOneBook,
+  updateBook,
 };

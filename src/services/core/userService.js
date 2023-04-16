@@ -67,10 +67,20 @@ const generateToken = (userDB, expiresIn = _7Days) => {
   return jwtService.signToken(user, expiresIn);
 };
 
+const findAllUsers = async () => {
+  try {
+    const users = await User.find().select("-password").exec();
+    return users;
+  } catch (error) {
+    return null;
+  }
+};
+
 module.exports = {
   createNewUser,
   findUserById,
   isDuplicateUser,
   findUserByEmail,
   generateToken,
+  findAllUsers,
 };

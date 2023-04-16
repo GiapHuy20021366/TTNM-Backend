@@ -36,8 +36,19 @@ const login = {
   description: "Login for user",
 };
 
+const allUsers = {
+  method: Method.GET,
+  path: "/api/v1/users",
+  auth: true,
+  permissions: [Role.USER],
+  middlewares: [],
+  task: userTask.getAllUsers,
+  description: "Login for user",
+};
+
 module.exports = {
   register,
   login,
   getInfor,
+  allUsers,
 };

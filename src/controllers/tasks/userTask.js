@@ -80,8 +80,23 @@ const loginUser = async (req, res) => {
   });
 };
 
+const getAllUsers = async (req, res) => {
+  const usersDB = await userService.findAllUsers();
+  if (!usersDB) {
+    return res.status(500).json({
+      status: 500,
+      err: "Internal server error",
+    });
+  }
+  return res.status(200).json({
+    status: 200,
+    data: usersDB,
+  });
+};
+
 module.exports = {
   createNewUser,
   getInfOfUser,
   loginUser,
+  getAllUsers,
 };

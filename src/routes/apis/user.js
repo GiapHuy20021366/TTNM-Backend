@@ -43,7 +43,7 @@ const allUsers = {
   permissions: [Role.USER],
   middlewares: [],
   task: userTask.getAllUsers,
-  description: "Login for user",
+  description: "Get all users",
 };
 
 module.exports = {

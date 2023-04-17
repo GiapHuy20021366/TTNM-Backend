@@ -27,7 +27,6 @@ const imagesUpload = async (req, res, next) => {
         err: "Internal server error",
       });
     }
-    console.log(imagesDB);
     req.body.images = imagesDB.map((imageDB) => {
       return imageDB.url;
     });

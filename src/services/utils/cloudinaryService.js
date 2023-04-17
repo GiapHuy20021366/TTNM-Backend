@@ -10,7 +10,10 @@ const uploadImages = async (base64Images) => {
         .catch((err) => {
           console.log(err);
         });
-      return res;
+      return {
+        ...res,
+        base64: img,
+      };
     })
   );
   return resData;

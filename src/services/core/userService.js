@@ -59,7 +59,7 @@ const isDuplicateUser = async (user) => {
 
 const _7Days = 60 * 60 * 24 * 7;
 const generateToken = (userDB, expiresIn = _7Days) => {
-  const includeFields = ["-id", "email", "role", "username"];
+  const includeFields = ["_id", "email", "role", "username"];
   const user = {};
   includeFields.forEach((field) => {
     user[field] = userDB[field];
@@ -76,6 +76,29 @@ const findAllUsers = async () => {
   }
 };
 
+const findUserByUsername = async (username) => {
+  try {
+    const user = await User.findOne({ username }).exec();
+    return user;
+  } catch (error) {
+    return null;
+  }
+};
+
+const updateUser = async (userDB, replacer) => {
+  Object.keys(replacer).forEach((key) => {
+    if (replacer[key]) {
+      userDB[key] = replacer[key];
+    }
+  });
+  try {
+    await userDB.save();
+    return userDB;
+  } catch (error) {
+    return null;
+  }
+};
+
 module.exports = {
   createNewUser,
   findUserById,
@@ -83,4 +106,6 @@ module.exports = {
   findUserByEmail,
   generateToken,
   findAllUsers,
+  findUserByUsername,
+  updateUser,
 };

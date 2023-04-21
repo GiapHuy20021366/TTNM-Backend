@@ -12,6 +12,16 @@ const streamTTS = {
   description: "Stream audio for a text",
 };
 
+// const streamLargeTTS = {
+//   method: Method.POST,
+//   path: "/api/v1/tts/:text",
+//   auth: false,
+//   permissions: [Role.ADMIN, Role.USER],
+//   middlewares: [],
+//   task: ttsTask.streamTTS,
+//   description: "Stream audio for a large text",
+// };
+
 module.exports = {
   streamTTS,
 };

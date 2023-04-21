@@ -46,9 +46,23 @@ const allUsers = {
   description: "Get all users",
 };
 
+const update = {
+  method: Method.PUT,
+  path: "/api/v1/user/:id",
+  auth: true,
+  permissions: [Role.USER],
+  middlewares: [
+    userMiddleware.userCheckerForUpdate,
+    imageMiddleware.avatarUpload,
+  ],
+  task: userTask.updateUser,
+  description: "Update a user",
+};
+
 module.exports = {
   register,
   login,
   getInfor,
   allUsers,
+  update,
 };

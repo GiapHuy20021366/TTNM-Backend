@@ -94,9 +94,46 @@ const getAllUsers = async (req, res) => {
   });
 };
 
+const updateUser = async (req, res) => {
+  const userDB = req.middlewareStorage.userGetter;
+  if (!userDB) {
+    return res.status(500).json({
+      status: 500,
+      err: "Internal server error",
+    });
+  }
+  const fields = ["username", "email", "avatar"];
+  const user = req.body;
+  const replacer = {};
+  fields.forEach((field) => {
+    if (user[field]) {
+      replacer[field] = user[field];
+    }
+  });
+  if (user.password) {
+    replacer.password = await bcryptService.hash(user.password);
+  }
+  const newUserDB = await userService.updateUser(userDB, replacer);
+  if (!newUserDB) {
+    return res.status(500).json({
+      status: 500,
+      err: "Internal server error",
+    });
+  }
+  if (newUserDB.password) {
+    delete newUserDB.password;
+  }
+  return res.status(200).json({
+    data: newUserDB,
+    status: 200,
+    token: userService.generateToken(newUserDB),
+  });
+};
+
 module.exports = {
   createNewUser,
   getInfOfUser,
   loginUser,
   getAllUsers,
+  updateUser,
 };

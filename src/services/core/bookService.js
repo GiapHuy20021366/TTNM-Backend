@@ -33,10 +33,12 @@ const concatBookQuery = (currentQuery, query) => {
   }
   if (!desc || desc <= 0 || desc === "false") {
     desc = -1;
+  } else {
+    desc = 1;
   }
 
   const pagination = limit && page;
-  let field = ["likes", "views", "uploadDate"].find(
+  let field = ["likes", "views", "uploadDate", "title"].find(
     (field) => sort && sort === field
   );
   if (pagination && field) {

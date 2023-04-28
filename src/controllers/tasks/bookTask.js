@@ -1,4 +1,5 @@
 import { bookService, authorService } from "../../services/core";
+import { query } from "express";
 
 const uploadBook = async (req, res) => {
   const { title, content, images } = req.body;
@@ -32,7 +33,16 @@ const uploadBook = async (req, res) => {
 };
 
 const getAllBooks = async (req, res) => {
-  const books = await bookService.findAllBooks();
+  const query = req.query;
+  const { page, limit } = query;
+  if (page) {
+    query.page = parseInt(page);
+  }
+  if (limit) {
+    query.limit = parseInt(limit);
+  }
+  // const books = await bookService.findAllBooks();
+  const books = await bookService.findBookByQuery(query);
   if (books) {
     return res.status(200).json({
       data: books,

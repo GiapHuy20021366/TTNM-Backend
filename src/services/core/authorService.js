@@ -73,6 +73,20 @@ const findAllAuthors = async () => {
   }
 };
 
+const findByNameAndAlias = async (string) => {
+  try {
+    const authors = await Author.find({
+      $or: [
+        { name: { $regex: string, $options: "i" } },
+        { alias: { $regex: string, $options: "i" } },
+      ],
+    }).exec();
+    return authors;
+  } catch (error) {
+    return null;
+  }
+};
+
 module.exports = {
   findAuthorById,
   findAuthorByAlias,
@@ -80,4 +94,5 @@ module.exports = {
   addBookRef,
   removeBookRef,
   findAllAuthors,
+  findByNameAndAlias,
 };

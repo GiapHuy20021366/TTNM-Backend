@@ -30,7 +30,7 @@ const uploadBook = {
 const getAllBooks = {
   method: Method.GET,
   path: "/api/v1/books",
-  auth: true,
+  auth: false,
   permissions: [Role.ANY],
   middlewares: [],
   task: bookTask.getAllBooks,

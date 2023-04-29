@@ -31,7 +31,7 @@ const getAllBooks = {
   method: Method.GET,
   path: "/api/v1/books",
   auth: true,
-  permissions: [Role.ADMIN, Role.USER],
+  permissions: [Role.ANY],
   middlewares: [],
   task: bookTask.getAllBooks,
   description: "Get information of books. Not include content!",

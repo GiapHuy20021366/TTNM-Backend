@@ -124,7 +124,7 @@ const findBookByQuery = async (query) => {
 
 const findBookById = async (id) => {
   try {
-    const book = await Book.findById(id).exec();
+    const book = await Book.findById(id).populate("authors").exec();
     return book;
   } catch (error) {
     return null;

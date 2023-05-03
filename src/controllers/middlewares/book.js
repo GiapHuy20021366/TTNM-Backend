@@ -45,7 +45,7 @@ const authorParser = async (req, res, next) => {
     notExisted: [],
   };
   req.middlewareStorage.authorParser = authorParser;
-  if (authors && Array.isArray(authors) && authors.length > 0) {
+  if (authors && authors.length > 0) {
     const isAllValid = authors.every((author) => {
       const { id, name, alias } = author;
       return id || alias || (name && alias);

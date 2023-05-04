@@ -103,7 +103,7 @@ const updateBook = async (req, res) => {
   const { title, content, intro, images } = req.body;
   const authorsDB = req?.middlewareStorage?.authorParser?.existed;
   const bookDB = req?.middlewareStorage?.bookGetter;
-  const authorIDs = [];
+  let authorIDs = [];
 
   authorsDB &&
     authorsDB.forEach((author) => {
@@ -115,7 +115,7 @@ const updateBook = async (req, res) => {
     title,
     content,
     images,
-    authors: authorIDs,
+    authors: authorIDs.length > 0 ? authorIDs : null,
     intro,
   };
 

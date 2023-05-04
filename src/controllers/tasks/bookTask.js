@@ -1,5 +1,4 @@
 import { bookService, authorService } from "../../services/core";
-import { query } from "express";
 
 const uploadBook = async (req, res) => {
   const { title, content, images } = req.body;

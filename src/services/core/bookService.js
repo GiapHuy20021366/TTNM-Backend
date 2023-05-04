@@ -14,7 +14,8 @@ const createBook = async (book) => {
 
 const findAllBooks = async (select = "-content") => {
   try {
-    const books = await Book.find().select(select).populate("authors").exec();
+    // const books = await Book.find().select(select).populate("authors").exec();
+    const books = await Book.find().populate("authors").exec();
     return books;
   } catch (error) {
     return null;

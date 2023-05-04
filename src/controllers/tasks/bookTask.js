@@ -1,7 +1,7 @@
 import { bookService, authorService } from "../../services/core";
 
 const uploadBook = async (req, res) => {
-  const { title, content, images } = req.body;
+  const { title, content, images, intro } = req.body;
   const authorsDB = req?.middlewareStorage?.authorParser?.existed;
   const authorIDs = [];
 
@@ -14,6 +14,7 @@ const uploadBook = async (req, res) => {
     content,
     authors: authorIDs,
     images,
+    intro,
   };
   // Create book
   const bookDB = await bookService.createBook(book);

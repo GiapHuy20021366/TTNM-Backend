@@ -4,7 +4,7 @@ import { Role } from "../../constant";
 
 const streamTTS = {
   method: Method.GET,
-  path: "/api/v1/tts/:text",
+  path: "/api/v1/tts",
   auth: false,
   permissions: [Role.ADMIN, Role.USER],
   middlewares: [],

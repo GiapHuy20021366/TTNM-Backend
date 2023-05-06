@@ -30,8 +30,8 @@ httpServer.listen(80, () => {
 
 const httpsServer = https.createServer(
   {
-    key: fs.readFileSync(path.resolve(__dirname, "./rsa/key.pem")),
-    cert: fs.readFileSync(path.resolve(__dirname, "./rsa/cert.pem")),
+    key: fs.readFileSync(path.resolve(__dirname, "./RSA/key.pem")),
+    cert: fs.readFileSync(path.resolve(__dirname, "./RSA/cert.pem")),
   },
   app
 );

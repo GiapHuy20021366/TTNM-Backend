@@ -83,6 +83,26 @@ const updateBook = {
     "Update a book. Each author must contain id or alias or (name and alias). Server will reject author having not found id, but will create new one when not found alias",
 };
 
+const likeOneBook = {
+  method: Method.GET,
+  path: "/api/v1/books/:id/like",
+  auth: true,
+  permissions: [Role.USER],
+  middlewares: [bookMiddleware.bookLikeChecker],
+  task: bookTask.likeOneBook,
+  description: "like one book",
+};
+
+const unlikeOneBook = {
+  method: Method.GET,
+  path: "/api/v1/books/:id/unlike",
+  auth: true,
+  permissions: [Role.USER],
+  middlewares: [bookMiddleware.bookUnlikeChecker],
+  task: bookTask.unlikeOneBook,
+  description: "unlike one book",
+};
+
 module.exports = {
   uploadBook,
   getAllBooks,
@@ -90,4 +110,6 @@ module.exports = {
   removeOneBook,
   bookTTS,
   updateBook,
+  likeOneBook,
+  unlikeOneBook,
 };

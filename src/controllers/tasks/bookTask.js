@@ -44,6 +44,9 @@ const getAllBooks = async (req, res) => {
   // const books = await bookService.findAllBooks();
   const books = await bookService.findBookByQuery(query);
   if (books) {
+    // await Promise.all(books.map( async (bookDB) => {
+
+    // }))
     return res.status(200).json({
       data: books,
       status: 200,
@@ -57,6 +60,7 @@ const getAllBooks = async (req, res) => {
 
 const getOneBook = async (req, res) => {
   const { id } = req?.params;
+  const auth = req?.middlewareStorage?.authorization;
   if (!id) {
     return res.status(400).json({
       status: 400,
@@ -69,6 +73,11 @@ const getOneBook = async (req, res) => {
       status: 404,
       err: `No book with id ${id} found`,
     });
+  }
+  await bookService.increaseBookView(book);
+  if (auth) {
+    const withLike = await bookService.coverWithLikeInf(book, auth._id);
+    // console.log(withLike);
   }
   return res.status(200).json({
     data: book,
@@ -135,10 +144,33 @@ const updateBook = async (req, res) => {
   });
 };
 
+const likeOneBook = async (req, res) => {
+  const bookLikeDB = req?.middlewareStorage?.bookLike;
+  if (!bookLikeDB) {
+    return res.status(500).json({
+      err: "Internal server error",
+      status: 500,
+    });
+  }
+  return res.status(200).json({
+    data: bookLikeDB,
+    status: 200,
+  });
+};
+
+const unlikeOneBook = async (req, res) => {
+  return res.status(200).json({
+    data: {},
+    status: 200,
+  });
+};
+
 module.exports = {
   uploadBook,
   getAllBooks,
   getOneBook,
   removeOneBook,
   updateBook,
+  likeOneBook,
+  unlikeOneBook,
 };

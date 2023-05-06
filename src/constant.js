@@ -5,6 +5,7 @@ export const collections = {
   book: process.env.BOOK_COLLECTION || "books",
   author: process.env.AUTHOR_COLLECTION || "authors",
   image: process.env.IMAGE_COLLECTION || "images",
+  bookLike: process.env.BOOK_LIKE_COLLECTION || "book-likes",
 };
 
 export class Method {

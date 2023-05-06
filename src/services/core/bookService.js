@@ -1,5 +1,5 @@
 import authorService from "./authorService";
-import { Book } from "../../db/models";
+import { Book, BookLike } from "../../db/models";
 
 const createBook = async (book) => {
   const bookDB = new Book(book);
@@ -157,6 +157,69 @@ const updateBook = async (bookDB, replacer) => {
   }
 };
 
+const likeBook = async (bookDB, userId) => {
+  try {
+    if (!bookDB.likes) {
+      bookDB.likes = 0;
+    }
+    bookDB.likes += 1;
+    await bookDB.save();
+    const bookLike = new BookLike({
+      book: bookDB._id,
+      user: userId,
+    });
+    await bookLike.save();
+    return bookLike;
+  } catch (error) {
+    return null;
+  }
+};
+
+const getBookLike = async (bookId, userId) => {
+  try {
+    const bookLike = await BookLike.findOne({
+      book: bookId,
+      user: userId,
+    }).exec();
+    return bookLike;
+  } catch (error) {
+    return null;
+  }
+};
+
+const deleteBookLike = async (bookDB, bookLikeDB) => {
+  try {
+    bookDB.likes -= 1;
+    await bookDB.save();
+    await BookLike.findByIdAndRemove(bookLikeDB._id);
+    return bookDB;
+  } catch (error) {
+    return null;
+  }
+};
+
+const increaseBookView = async (bookDB) => {
+  try {
+    if (!bookDB.views) {
+      bookDB.views = 0;
+    }
+    bookDB.views += 1;
+    await bookDB.save();
+    return bookDB;
+  } catch (error) {
+    return null;
+  }
+};
+
+const coverWithLikeInf = async (bookDB, userId) => {
+  const bookLikeDB = await getBookLike(bookDB._id, userId);
+  bookDB.liked = true;
+  if (bookLikeDB) {
+    bookDB._doc.liked = bookLikeDB;
+  }
+  return bookDB;
+};
+
 module.exports = {
   createBook,
   findAllBooks,
@@ -164,4 +227,9 @@ module.exports = {
   removeBookById,
   updateBook,
   findBookByQuery,
+  likeBook,
+  getBookLike,
+  increaseBookView,
+  deleteBookLike,
+  coverWithLikeInf,
 };

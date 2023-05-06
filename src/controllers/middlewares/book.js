@@ -34,6 +34,7 @@ const bookGetterForUpdate = async (req, res, next) => {
       err: `No book with id ${id} found`,
     });
   }
+
   req.middlewareStorage.bookGetter = bookDB;
   next();
 };
@@ -97,9 +98,99 @@ const authorCreatorIfNotExist = async (req, res, next) => {
   next();
 };
 
+const bookLikeChecker = async (req, res, next) => {
+  const bookId = req?.params?.id;
+  if (!bookId) {
+    return res.status(400).json({
+      err: "No book id found in request",
+      status: 400,
+    });
+  }
+  const auth = req?.middlewareStorage?.authorization;
+  if (!auth?.role) {
+    return res.status(500).json({
+      status: 500,
+      err: "Internal server error. Invalid Token cause by login method",
+    });
+  }
+  const userId = auth._id;
+  const bookDB = await bookService.findBookById(bookId);
+  if (!bookDB) {
+    return res.status(404).json({
+      err: `No book with id ${bookId} found`,
+      status: 404,
+    });
+  }
+  const bookLike = await bookService.getBookLike(bookId, userId);
+  if (bookLike) {
+    return res.status(400).json({
+      err: "Already liked",
+      status: 400,
+    });
+  }
+
+  const bookLikeDB = await bookService.likeBook(bookDB, userId);
+  if (!bookLikeDB) {
+    return res.status(500).json({
+      err: "Internal server error",
+      status: 500,
+    });
+  }
+
+  req.middlewareStorage.bookLike = bookLikeDB;
+  next();
+};
+
+const bookUnlikeChecker = async (req, res, next) => {
+  const bookId = req?.params?.id;
+  if (!bookId) {
+    return res.status(400).json({
+      err: "No book id found in request",
+      status: 400,
+    });
+  }
+  const auth = req?.middlewareStorage?.authorization;
+  if (!auth?.role) {
+    return res.status(500).json({
+      status: 500,
+      err: "Internal server error. Invalid Token cause by login method",
+    });
+  }
+  const userId = auth._id;
+  const bookDB = await bookService.findBookById(bookId);
+  if (!bookDB) {
+    return res.status(404).json({
+      err: `No book with id ${bookId} found`,
+      status: 404,
+    });
+  }
+  const bookLike = await bookService.getBookLike(bookId, userId);
+  if (!bookLike) {
+    return res.status(400).json({
+      err: "Not like yet",
+      status: 400,
+    });
+  }
+
+  const deleteBookLike = await bookService.deleteBookLike(bookDB, bookLike);
+  if (!deleteBookLike) {
+    return res.status(500).json({
+      err: "Internal server error",
+      status: 500,
+    });
+  }
+
+  return res.status(200).json({
+    data: {},
+    status: 200,
+  });
+};
+
 module.exports = {
   bookCheckerForCreate,
   authorParser,
   authorCreatorIfNotExist,
   bookGetterForUpdate,
+  bookLikeChecker,
+  bookUnlikeChecker,
 };

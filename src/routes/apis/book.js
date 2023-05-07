@@ -84,7 +84,7 @@ const updateBook = {
 };
 
 const likeOneBook = {
-  method: Method.GET,
+  method: Method.PUT,
   path: "/api/v1/books/:id/like",
   auth: true,
   permissions: [Role.USER],
@@ -94,7 +94,7 @@ const likeOneBook = {
 };
 
 const unlikeOneBook = {
-  method: Method.GET,
+  method: Method.PUT,
   path: "/api/v1/books/:id/unlike",
   auth: true,
   permissions: [Role.USER],

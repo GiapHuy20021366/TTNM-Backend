@@ -186,6 +186,36 @@ const bookUnlikeChecker = async (req, res, next) => {
   });
 };
 
+const bookLikeCheckerForGet = async (req, res, next) => {
+  const bookId = req?.params?.id;
+  if (!bookId) {
+    return res.status(400).json({
+      err: "No book id found in request",
+      status: 400,
+    });
+  }
+  const auth = req?.middlewareStorage?.authorization;
+  if (!auth?.role) {
+    return res.status(500).json({
+      status: 500,
+      err: "Internal server error. Invalid Token cause by login method",
+    });
+  }
+  const userId = auth._id;
+  const bookDB = await bookService.findBookById(bookId);
+  if (!bookDB) {
+    return res.status(404).json({
+      err: `No book with id ${bookId} found`,
+      status: 404,
+    });
+  }
+
+  req.middlewareStorage.book = { _id: bookId };
+  req.middlewareStorage.user = { _id: userId };
+
+  next();
+};
+
 module.exports = {
   bookCheckerForCreate,
   authorParser,
@@ -193,4 +223,5 @@ module.exports = {
   bookGetterForUpdate,
   bookLikeChecker,
   bookUnlikeChecker,
+  bookLikeCheckerForGet,
 };

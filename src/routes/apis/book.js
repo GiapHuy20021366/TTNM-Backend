@@ -103,6 +103,16 @@ const unlikeOneBook = {
   description: "unlike one book",
 };
 
+const likesOfBook = {
+  method: Method.GET,
+  path: "/api/v1/books/:id/like",
+  auth: true,
+  permissions: [Role.USER],
+  middlewares: [bookMiddleware.bookLikeCheckerForGet],
+  task: bookTask.getLikesOfBook,
+  description: "get users who like a book",
+};
+
 module.exports = {
   uploadBook,
   getAllBooks,
@@ -112,4 +122,5 @@ module.exports = {
   updateBook,
   likeOneBook,
   unlikeOneBook,
+  likesOfBook,
 };

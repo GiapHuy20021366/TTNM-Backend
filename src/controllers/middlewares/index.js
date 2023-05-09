@@ -3,6 +3,7 @@ import userMiddleware from "./user";
 import bookMiddleware from "./book";
 import authorMiddleware from "./author";
 import imageMiddleware from "./image";
+import feedbackMiddleware from "./feedback";
 
 const middlewareStorage = (req, res, next) => {
   req.middlewareStorage = {
@@ -18,4 +19,5 @@ module.exports = {
   bookMiddleware,
   authorMiddleware,
   imageMiddleware,
+  feedbackMiddleware,
 };

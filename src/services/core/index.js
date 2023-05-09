@@ -3,6 +3,7 @@ import ttsService from "./ttsService";
 import authorService from "./authorService";
 import bookService from "./bookService";
 import imageService from "./imageService";
+import feedbackService from "./feedbackService";
 
 module.exports = {
   userService,
@@ -10,4 +11,5 @@ module.exports = {
   authorService,
   bookService,
   imageService,
+  feedbackService,
 };

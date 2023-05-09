@@ -3,6 +3,7 @@ import bookSchema from "./bookSchema";
 import authorSchema from "./authorSchema";
 import imageSchema from "./imageSchema";
 import bookLikeSchema from "./bookLikeSchema";
+import feedbackSchema from "./feedbackSchema";
 
 module.exports = {
   userSchema,
@@ -10,4 +11,5 @@ module.exports = {
   authorSchema,
   imageSchema,
   bookLikeSchema,
+  feedbackSchema,
 };

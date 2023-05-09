@@ -24,7 +24,7 @@ viewEngine(app);
 initWebRouters(app);
 
 const httpServer = http.createServer(app);
-httpServer.listen(80, () => {
+httpServer.listen(process.env.HTTP_PORT || 80, () => {
   console.log("http server listening on port 80");
 });
 
@@ -35,7 +35,7 @@ const httpsServer = https.createServer(
   },
   app
 );
-httpsServer.listen(443, () => {
+httpsServer.listen(process.env.HTTPs_PORT || 443, () => {
   console.log("https server listening on port 443");
 });
 

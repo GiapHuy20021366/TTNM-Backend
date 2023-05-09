@@ -165,6 +165,21 @@ const unlikeOneBook = async (req, res) => {
   });
 };
 
+const getLikesOfBook = async (req, res) => {
+  const bookId = req.middlewareStorage.book._id;
+  const likes = await bookService.getLikesOfBook(bookId);
+  if (!likes) {
+    return res.status(500).json({
+      err: "Internal server error",
+      status: 500,
+    });
+  }
+  return res.status(200).json({
+    data: likes,
+    status: 200,
+  });
+};
+
 module.exports = {
   uploadBook,
   getAllBooks,
@@ -173,4 +188,5 @@ module.exports = {
   updateBook,
   likeOneBook,
   unlikeOneBook,
+  getLikesOfBook,
 };

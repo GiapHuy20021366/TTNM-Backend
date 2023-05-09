@@ -63,6 +63,28 @@ const initWebRouters = (app) => {
       );
   });
 
+  router.get("/api/v1/list/:name", (req, res) => {
+    const shortName2FullName = {};
+    Object.keys(apis).forEach((apiName) => {
+      const shortName = apiName.replace("APIs", "");
+      shortName2FullName[shortName] = apiName;
+    });
+    const name = req?.params?.name;
+    if (!name || !shortName2FullName[name]) {
+      return res.send([]);
+    }
+    const fullName = shortName2FullName[name];
+    return res
+      .status(200)
+      .json(
+        JSON.parse(
+          JSON.stringify(apis[fullName], (key, value) =>
+            typeof value === "function" ? value.name : value
+          )
+        )
+      );
+  });
+
   router.get("*", function (req, res) {
     res.status(404).send("404 not found");
   });

@@ -5,6 +5,7 @@ import {
   authorSchema,
   imageSchema,
   bookLikeSchema,
+  feedbackSchema,
 } from "../schemas";
 import { collections } from "../../constant";
 
@@ -17,6 +18,11 @@ const BookLike = mongoose.model(
   bookLikeSchema,
   collections.bookLike
 );
+const Feedback = mongoose.model(
+  "Feedback",
+  feedbackSchema,
+  collections.feedback
+);
 
 module.exports = {
   User,
@@ -24,4 +30,5 @@ module.exports = {
   Author,
   Image,
   BookLike,
+  Feedback,
 };

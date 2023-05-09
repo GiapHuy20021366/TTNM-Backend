@@ -220,6 +220,20 @@ const coverWithLikeInf = async (bookDB, userId) => {
   return bookDB;
 };
 
+const getLikesOfBook = async (bookId) => {
+  try {
+    const likes = await BookLike.find({ book: bookId })
+      .populate({
+        path: "user",
+        select: "-password",
+      })
+      .exec();
+    return likes;
+  } catch (error) {
+    return null;
+  }
+};
+
 module.exports = {
   createBook,
   findAllBooks,
@@ -232,4 +246,5 @@ module.exports = {
   increaseBookView,
   deleteBookLike,
   coverWithLikeInf,
+  getLikesOfBook,
 };

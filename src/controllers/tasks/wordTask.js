@@ -2,10 +2,10 @@ import { wordOutService } from "../../services/utils";
 import { wordNoteService } from "../../services/core";
 
 const getWordDefinition = async (req, res) => {
-  const word = req?.params?.word.trim();
+  const word = req?.query?.q?.trim();
   if (!word) {
     return res.status(400).json({
-      err: "Missing word in request",
+      err: "Missing query in request",
       status: 400,
     });
   }
@@ -24,10 +24,10 @@ const getWordDefinition = async (req, res) => {
 };
 
 const getWordIllustrations = async (req, res) => {
-  const word = req?.params?.word.trim();
+  const word = req?.query?.q?.trim();
   if (!word) {
     return res.status(400).json({
-      err: "Missing word in request",
+      err: "Missing query  in request",
       status: 400,
     });
   }

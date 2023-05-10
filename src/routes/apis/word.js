@@ -5,7 +5,7 @@ import { Role } from "../../constant";
 
 const getDefinition = {
   method: Method.GET,
-  path: "/api/v1/words/definition/:word",
+  path: "/api/v1/words/definition",
   auth: false,
   permissions: [Role.ANY],
   middlewares: [],
@@ -15,7 +15,7 @@ const getDefinition = {
 
 const getIllustrations = {
   method: Method.GET,
-  path: "/api/v1/words/illustration/:word",
+  path: "/api/v1/words/illustration",
   auth: false,
   permissions: [Role.ANY],
   middlewares: [],

@@ -6,6 +6,7 @@ import {
   imageSchema,
   bookLikeSchema,
   feedbackSchema,
+  wordNoteSchema,
 } from "../schemas";
 import { collections } from "../../constant";
 
@@ -23,6 +24,11 @@ const Feedback = mongoose.model(
   feedbackSchema,
   collections.feedback
 );
+const WordNote = mongoose.model(
+  "WordNote",
+  wordNoteSchema,
+  collections.wordNote
+);
 
 module.exports = {
   User,
@@ -31,4 +37,5 @@ module.exports = {
   Image,
   BookLike,
   Feedback,
+  WordNote,
 };

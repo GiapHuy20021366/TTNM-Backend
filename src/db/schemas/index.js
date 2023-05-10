@@ -4,6 +4,7 @@ import authorSchema from "./authorSchema";
 import imageSchema from "./imageSchema";
 import bookLikeSchema from "./bookLikeSchema";
 import feedbackSchema from "./feedbackSchema";
+import wordNoteSchema from "./wordNoteSchema";
 
 module.exports = {
   userSchema,
@@ -12,4 +13,5 @@ module.exports = {
   imageSchema,
   bookLikeSchema,
   feedbackSchema,
+  wordNoteSchema,
 };

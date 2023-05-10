@@ -7,6 +7,7 @@ export const collections = {
   image: process.env.IMAGE_COLLECTION || "images",
   bookLike: process.env.BOOK_LIKE_COLLECTION || "book-likes",
   feedback: process.env.FEEDBACK_COLLECTION || "feedbacks",
+  wordNote: process.env.WORD_NOTE_COLLECTION || "word-notes",
 };
 
 export class Method {

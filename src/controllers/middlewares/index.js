@@ -4,6 +4,7 @@ import bookMiddleware from "./book";
 import authorMiddleware from "./author";
 import imageMiddleware from "./image";
 import feedbackMiddleware from "./feedback";
+import wordMiddleware from "./word";
 
 const middlewareStorage = (req, res, next) => {
   req.middlewareStorage = {
@@ -20,4 +21,5 @@ module.exports = {
   authorMiddleware,
   imageMiddleware,
   feedbackMiddleware,
+  wordMiddleware,
 };

@@ -22,8 +22,8 @@ const createNewAuthor = {
 const getAllAuthors = {
   method: Method.GET,
   path: "/api/v1/authors",
-  auth: true,
-  permissions: [Role.ADMIN, Role.USER],
+  auth: false,
+  permissions: [Role.ANY],
   middlewares: [],
   task: authorTask.getAllAuthors,
   description: "Get information of all authors",
@@ -32,8 +32,8 @@ const getAllAuthors = {
 const getOneAuthor = {
   method: Method.GET,
   path: "/api/v1/authors/:id",
-  auth: true,
-  permissions: [Role.ADMIN, Role.USER],
+  auth: false,
+  permissions: [Role.ANY],
   middlewares: [],
   task: authorTask.getOneAuthor,
   description: "Get information of a author",

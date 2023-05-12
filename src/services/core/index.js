@@ -5,6 +5,7 @@ import bookService from "./bookService";
 import imageService from "./imageService";
 import feedbackService from "./feedbackService";
 import wordNoteService from "./wordNoteService";
+import sentenceGameService from "./sentenceGameService";
 
 module.exports = {
   userService,
@@ -14,4 +15,5 @@ module.exports = {
   imageService,
   feedbackService,
   wordNoteService,
+  sentenceGameService,
 };

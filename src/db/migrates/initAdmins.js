@@ -44,8 +44,8 @@ const admins = {
   giapHuyHetXien,
 };
 
-const initAdmins = () => {
-  Promise.all(
+const initAdmins = async () => {
+  await Promise.all(
     Object.values(admins).map(async (admin) => {
       const adminDB = await userService.findUserByEmail(admin.email);
       if (!adminDB) {

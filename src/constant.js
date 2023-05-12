@@ -8,6 +8,9 @@ export const collections = {
   bookLike: process.env.BOOK_LIKE_COLLECTION || "book-likes",
   feedback: process.env.FEEDBACK_COLLECTION || "feedbacks",
   wordNote: process.env.WORD_NOTE_COLLECTION || "word-notes",
+  gameSentence: process.env.GAME_SENTENCE_COLLECTION || "game-sentences",
+  sortGameHistory:
+    process.env.SORT_GAME_HISTORY_COLLECTIOn || "sort-game-histories",
 };
 
 export class Method {

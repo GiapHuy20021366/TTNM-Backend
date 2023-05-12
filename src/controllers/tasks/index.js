@@ -4,6 +4,7 @@ import bookTask from "./bookTask";
 import authorTask from "./authorTask";
 import feedbackTask from "./feedbackTask";
 import wordTask from "./wordTask";
+import sentenceGameTask from "./sentenceGameTask";
 
 module.exports = {
   userTask,
@@ -12,4 +13,5 @@ module.exports = {
   authorTask,
   feedbackTask,
   wordTask,
+  sentenceGameTask,
 };

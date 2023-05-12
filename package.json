@@ -28,7 +28,8 @@
     "node-html-parser": "^6.1.5",
     "nodemailer": "^6.8.0",
     "socket.io": "^4.5.3",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "vntk": "^1.4.4"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",

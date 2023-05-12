@@ -4,15 +4,15 @@ import initWebRouters from "./routes/web";
 import configMiddlewares from "./routes/configMiddlewares";
 import http from "http";
 import connectDB from "./config/connectDB";
-import initAdmins from "./db/migrates/initAdmins";
 import fs from "fs";
 import https from "https";
 import path from "path";
+import migrate from "./db/migrates";
+migrate();
 
 require("dotenv").config();
 
 connectDB();
-initAdmins();
 
 const app = express();
 // const server = http.createServer(app);

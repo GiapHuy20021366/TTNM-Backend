@@ -4,6 +4,7 @@ import bookAPIs from "./book";
 import authorAPIs from "./author";
 import feedbackAPIs from "./feedback";
 import wordAPIs from "./word";
+import sentenceGameAPIs from "./sentenceGame";
 
 module.exports = {
   userAPIs,
@@ -12,4 +13,5 @@ module.exports = {
   authorAPIs,
   feedbackAPIs,
   wordAPIs,
+  sentenceGameAPIs,
 };

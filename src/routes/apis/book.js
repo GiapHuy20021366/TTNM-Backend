@@ -113,6 +113,16 @@ const likesOfBook = {
   description: "get users who like a book",
 };
 
+const getBookSentences = {
+  method: Method.GET,
+  path: "/api/v1/books/:id/sentences",
+  auth: true,
+  permissions: [Role.ADMIN, Role.USER],
+  middlewares: [],
+  task: bookTask.getSentencesOfBook,
+  description: "Get all information of one book",
+};
+
 module.exports = {
   uploadBook,
   getAllBooks,
@@ -123,4 +133,5 @@ module.exports = {
   likeOneBook,
   unlikeOneBook,
   likesOfBook,
+  getBookSentences,
 };

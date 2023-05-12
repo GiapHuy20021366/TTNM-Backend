@@ -1,4 +1,5 @@
 import { bookService, authorService } from "../../services/core";
+import { vntkService } from "../../services/utils";
 
 const uploadBook = async (req, res) => {
   const { title, content, images, intro } = req.body;
@@ -180,6 +181,47 @@ const getLikesOfBook = async (req, res) => {
   });
 };
 
+const getSentencesOfBook = async (req, res) => {
+  const { id } = req?.params;
+  const auth = req?.middlewareStorage?.authorization;
+  if (!id) {
+    return res.status(400).json({
+      status: 400,
+      err: "No book id found in request",
+    });
+  }
+  const book = await bookService.findBookById(id);
+  if (!book) {
+    return res.status(404).json({
+      status: 404,
+      err: `No book with id ${id} found`,
+    });
+  }
+  await bookService.increaseBookView(book);
+  if (auth) {
+    const withLike = await bookService.coverWithLikeInf(book, auth._id);
+    // console.log(withLike);
+  }
+
+  const sentences = book.content.split(".");
+  const tokens = sentences.map((sentence, index) => {
+    const cvtSentence = sentence.trim().replaceAll("\\n", " break ") + ".";
+    const originSentence = cvtSentence.replaceAll(" break ", "");
+    const dx = {
+      _id: index,
+      sentence: originSentence,
+      tokens: vntkService.tokenize(cvtSentence),
+    };
+    return dx;
+  });
+  book._doc.tokens = tokens;
+  delete book._doc.content;
+  return res.status(200).json({
+    data: book,
+    status: 200,
+  });
+};
+
 module.exports = {
   uploadBook,
   getAllBooks,
@@ -189,4 +231,5 @@ module.exports = {
   likeOneBook,
   unlikeOneBook,
   getLikesOfBook,
+  getSentencesOfBook,
 };

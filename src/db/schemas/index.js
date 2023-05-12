@@ -5,6 +5,8 @@ import imageSchema from "./imageSchema";
 import bookLikeSchema from "./bookLikeSchema";
 import feedbackSchema from "./feedbackSchema";
 import wordNoteSchema from "./wordNoteSchema";
+import gameSentenceSchema from "./gameSentenceSchema";
+import sortGameHistorySchema from "./sortGameHistorySchema";
 
 module.exports = {
   userSchema,
@@ -14,4 +16,6 @@ module.exports = {
   bookLikeSchema,
   feedbackSchema,
   wordNoteSchema,
+  gameSentenceSchema,
+  sortGameHistorySchema,
 };

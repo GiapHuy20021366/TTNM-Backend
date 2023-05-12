@@ -7,7 +7,8 @@ const initSentences = async () => {
     path.resolve(__dirname, "../../public/resource/sentences.txt"),
     "utf8"
   );
-  const sentences = sentenceStr.split("\r\n");
+  let sentences = sentenceStr.split("\n");
+  sentences = sentences.map((sentence) => sentence.trim());
   let pos = 0;
   for (const sentence of sentences) {
     const existedSentence = await sentenceGameService.findBySentence(sentence);

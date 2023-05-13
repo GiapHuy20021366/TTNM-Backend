@@ -183,6 +183,78 @@ const getLikesOfBook = async (req, res) => {
 
 const getSentencesOfBook = async (req, res) => {
   const { id } = req?.params;
+  const query = req.query || {};
+  let { page, limit } = query;
+  page = (page && +page) || 0;
+  limit = (limit && +limit) || 30;
+  page = page < 0 ? -page : page;
+  limit = limit < 0 ? -limit : limit;
+  // console.log(page, limit);
+
+  const auth = req?.middlewareStorage?.authorization;
+  if (!id) {
+    return res.status(400).json({
+      status: 400,
+      err: "No book id found in request",
+    });
+  }
+  const book = await bookService.findBookById(id);
+  if (!book) {
+    return res.status(404).json({
+      status: 404,
+      err: `No book with id ${id} found`,
+    });
+  }
+  if (page === 0) {
+    await bookService.increaseBookView(book);
+  }
+
+  if (auth) {
+    const withLike = await bookService.coverWithLikeInf(book, auth._id);
+    // console.log(withLike);
+  }
+
+  const sentences = book.content.split(".");
+  const maxPage = Math.floor(sentences.length / limit);
+  let startIndex = page * limit;
+  let endIndex = startIndex + limit - 1;
+  if (endIndex >= sentences.length) {
+    endIndex = sentences.length - 1;
+    page = maxPage;
+  }
+  if (startIndex >= sentences.length) {
+    startIndex = endIndex - limit + 1;
+    page = maxPage;
+    if (startIndex < 0) {
+      startIndex = 0;
+    }
+  }
+  const filterSentences = sentences.filter((sentence, index) => {
+    return index >= startIndex && index <= endIndex;
+  });
+
+  const tokens = filterSentences.map((sentence, index) => {
+    const cvtSentence = sentence.trim().replaceAll("\\n", " break ") + ".";
+    const originSentence = cvtSentence.replaceAll(" break ", "");
+    const dx = {
+      _id: index + startIndex,
+      sentence: originSentence,
+      tokens: vntkService.tokenize(cvtSentence),
+    };
+    return dx;
+  });
+  book._doc.tokens = tokens;
+  book._doc.currentPage = page;
+  book._doc.maxPage = maxPage;
+  delete book._doc.content;
+  return res.status(200).json({
+    data: book,
+    status: 200,
+  });
+};
+
+const getSentencesOfBookByStream = async (req, res) => {
+  const { id } = req?.params;
   const auth = req?.middlewareStorage?.authorization;
   if (!id) {
     return res.status(400).json({
@@ -202,9 +274,17 @@ const getSentencesOfBook = async (req, res) => {
     const withLike = await bookService.coverWithLikeInf(book, auth._id);
     // console.log(withLike);
   }
-
   const sentences = book.content.split(".");
-  const tokens = sentences.map((sentence, index) => {
+  delete book._doc.content;
+  // Stream....
+  res.setHeader("Content-Type", "text/event-stream");
+  res.setHeader("Cache-Control", "no-cache");
+
+  res.write("data: " + JSON.stringify(book) + "\n\n");
+
+  const t2 = Date.now();
+  let index = 0;
+  for (const sentence of sentences) {
     const cvtSentence = sentence.trim().replaceAll("\\n", " break ") + ".";
     const originSentence = cvtSentence.replaceAll(" break ", "");
     const dx = {
@@ -212,14 +292,12 @@ const getSentencesOfBook = async (req, res) => {
       sentence: originSentence,
       tokens: vntkService.tokenize(cvtSentence),
     };
-    return dx;
-  });
-  book._doc.tokens = tokens;
-  delete book._doc.content;
-  return res.status(200).json({
-    data: book,
-    status: 200,
-  });
+    // res.write("data: " + index + "\n\n");
+    index += 1;
+    res.write("data: " + JSON.stringify(dx) + "\n\n");
+  }
+
+  res.end();
 };
 
 module.exports = {
@@ -232,4 +310,5 @@ module.exports = {
   unlikeOneBook,
   getLikesOfBook,
   getSentencesOfBook,
+  getSentencesOfBookByStream,
 };

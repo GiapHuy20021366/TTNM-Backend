@@ -76,6 +76,7 @@ const scrapeImages = async (word, limit = 5) => {
     const results = await google.scrape(word, 5);
     return results;
   } catch (error) {
+    console.log(error);
     return [];
   }
 };

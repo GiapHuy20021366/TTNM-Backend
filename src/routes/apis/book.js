@@ -120,7 +120,17 @@ const getBookSentences = {
   permissions: [Role.ADMIN, Role.USER],
   middlewares: [],
   task: bookTask.getSentencesOfBook,
-  description: "Get all information of one book",
+  description: "get sentences of one book",
+};
+
+const streamBookSentences = {
+  method: Method.GET,
+  path: "/api/v1/books/:id/sentences/stream",
+  auth: false,
+  permissions: [Role.ANY],
+  middlewares: [],
+  task: bookTask.getSentencesOfBookByStream,
+  description: "stream sentences of one book",
 };
 
 module.exports = {
@@ -134,4 +144,5 @@ module.exports = {
   unlikeOneBook,
   likesOfBook,
   getBookSentences,
+  streamBookSentences,
 };

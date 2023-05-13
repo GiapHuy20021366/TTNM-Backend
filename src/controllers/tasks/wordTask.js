@@ -31,7 +31,8 @@ const getWordIllustrations = async (req, res) => {
       status: 400,
     });
   }
-  const wordImages = await wordOutService.scrapeImages(word);
+  // const wordImages = await wordOutService.scrapeImages(word);
+  const wordImages = await wordOutService.searchImages(word);
   return res.status(200).json({
     data: wordImages,
     status: 200,

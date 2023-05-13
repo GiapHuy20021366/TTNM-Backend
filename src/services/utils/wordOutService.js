@@ -81,24 +81,29 @@ const scrapeImages = async (word, limit = 5) => {
   }
 };
 
-const scrapeHtmlImages = async (word, limit = 5) => {
-  const data = await axios
-    .get(`https://images.google.com/search?tbm=isch&tbs=&q=${word}`)
+const searchImages = async (word) => {
+  const images = await axios
+    .get("https://pixabay.com/api/", {
+      params: {
+        key: process.env.PIXABAY_KEY,
+        q: word,
+        per_page: 5,
+        lang: "vi",
+      },
+    })
     .then((response) => {
-      const html = response.data;
-      const root = parse(html);
-      console.log(root);
-      return [];
+      // console.log(response.data);
+      return response.data;
     })
     .catch((error) => {
-      console.error(error);
+      console.log(error);
     });
-  return data;
+  return images;
 };
 
 module.exports = {
   getExamplesSingleWord,
   crawlWordRoles,
   scrapeImages,
-  // scrapeHtmlImages,
+  searchImages,
 };

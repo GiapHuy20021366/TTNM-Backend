@@ -32,7 +32,7 @@ const getWordIllustrations = async (req, res) => {
     });
   }
   // const wordImages = await wordOutService.scrapeImages(word);
-  const wordImages = await wordOutService.searchImages(word);
+  const wordImages = await wordOutService.searchGISImages(word);
   return res.status(200).json({
     data: wordImages,
     status: 200,

@@ -1,6 +1,7 @@
 const dictionary = require("@vntk/dictionary");
 import axios from "axios";
 import { parse } from "node-html-parser";
+const gis = require("g-i-s");
 const ImageScraper = require("images-scraper");
 
 const google = new ImageScraper({
@@ -101,9 +102,22 @@ const searchImages = async (word) => {
   return images;
 };
 
+const searchGISImages = async (word) => {
+  return new Promise((resolve, reject) => {
+    gis(`Ảnh minh họa từ: ${word}`, (err, results) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(results);
+      }
+    });
+  });
+};
+
 module.exports = {
   getExamplesSingleWord,
   crawlWordRoles,
   scrapeImages,
   searchImages,
+  searchGISImages,
 };

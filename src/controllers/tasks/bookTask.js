@@ -243,7 +243,7 @@ const getSentencesOfBook = async (req, res) => {
     };
     return dx;
   });
-  book._doc.tokens = tokens;
+  book._doc.sentences = tokens;
   book._doc.currentPage = page;
   book._doc.maxPage = maxPage;
   delete book._doc.content;

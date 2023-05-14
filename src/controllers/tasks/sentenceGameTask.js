@@ -122,14 +122,14 @@ const saveSortGameResult = async (req, res) => {
     });
   }
   const userId = auth._id;
-  const { sentenceId, correct } = req.body;
+  let { sentenceId, correct } = req.body;
   if (!sentenceId) {
     return res.status(400).json({
       err: `No sentence id found in request body`,
       status: 400,
     });
   }
-  if (!correct) {
+  if (correct === undefined) {
     return res.status(400).json({
       err: `No correct result found in request body`,
       status: 400,
@@ -176,7 +176,7 @@ const saveChoiceGameResult = async (req, res) => {
       status: 400,
     });
   }
-  if (!correct) {
+  if (correct === undefined) {
     return res.status(400).json({
       err: `No correct result found in request body`,
       status: 400,

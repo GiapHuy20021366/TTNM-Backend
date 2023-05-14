@@ -7,6 +7,7 @@ import feedbackSchema from "./feedbackSchema";
 import wordNoteSchema from "./wordNoteSchema";
 import gameSentenceSchema from "./gameSentenceSchema";
 import sortGameHistorySchema from "./sortGameHistorySchema";
+import choiceGameHistorySchema from "./choiceGameHistorySchema";
 
 module.exports = {
   userSchema,
@@ -18,4 +19,5 @@ module.exports = {
   wordNoteSchema,
   gameSentenceSchema,
   sortGameHistorySchema,
+  choiceGameHistorySchema,
 };

@@ -15,6 +15,24 @@ const getExamplesSingleWord = async (word) => {
   return senses;
 };
 
+const getChoices = async (word) => {
+  const words = dictionary.words;
+  const len = word.trim().split(" ").length;
+  const randWords = ((num) => {
+    const arr = [];
+    while (arr.length < num) {
+      const randIndex = Math.floor(Math.random() * words.length);
+      const randWord = words[randIndex];
+      const wordCount = randWord.trim().split(" ").length;
+      if (len === wordCount && !randWord.includes("-")) {
+        arr.push(randWord);
+      }
+    }
+    return arr;
+  })(3);
+  return randWords;
+};
+
 const crawlWordRoles = async (word) => {
   const data = await axios
     .get(`http://tratu.soha.vn/dict/vn_vn/${word}`)
@@ -120,4 +138,5 @@ module.exports = {
   scrapeImages,
   searchImages,
   searchGISImages,
+  getChoices,
 };

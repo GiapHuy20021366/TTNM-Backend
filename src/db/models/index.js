@@ -9,6 +9,7 @@ import {
   wordNoteSchema,
   gameSentenceSchema,
   sortGameHistorySchema,
+  choiceGameHistorySchema,
 } from "../schemas";
 import { collections } from "../../constant";
 
@@ -42,6 +43,13 @@ const SortGameHistory = mongoose.model(
   sortGameHistorySchema,
   collections.sortGameHistory
 );
+
+const ChoiceGameHistory = mongoose.model(
+  "ChoiceGameHistory",
+  choiceGameHistorySchema,
+  collections.choiceGameHistory
+);
+
 module.exports = {
   User,
   Book,
@@ -52,4 +60,5 @@ module.exports = {
   WordNote,
   GameSentence,
   SortGameHistory,
+  ChoiceGameHistory,
 };

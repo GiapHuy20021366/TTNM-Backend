@@ -11,6 +11,8 @@ export const collections = {
   gameSentence: process.env.GAME_SENTENCE_COLLECTION || "game-sentences",
   sortGameHistory:
     process.env.SORT_GAME_HISTORY_COLLECTIOn || "sort-game-histories",
+  choiceGameHistory:
+    process.env.CHOICE_GAME_HISTORY_COLLECTIOn || "choice-game-histories",
 };
 
 export class Method {

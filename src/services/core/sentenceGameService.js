@@ -1,4 +1,8 @@
-import { GameSentence, SortGameHistory } from "../../db/models";
+import {
+  GameSentence,
+  SortGameHistory,
+  ChoiceGameHistory,
+} from "../../db/models";
 
 const findBySentence = async (sentence) => {
   try {
@@ -75,6 +79,20 @@ const saveSortGameResult = async (userId, sentenceId, correct) => {
   }
 };
 
+const saveChoiceGameResult = async (userId, sentenceId, correct) => {
+  try {
+    const result = new ChoiceGameHistory({
+      user: userId,
+      sentence: sentenceId,
+      correct: correct,
+    });
+    await result.save();
+    return result;
+  } catch (error) {
+    return null;
+  }
+};
+
 module.exports = {
   findBySentence,
   deleteById,
@@ -83,4 +101,5 @@ module.exports = {
   getRandomGameSentence,
   findSentenceById,
   saveSortGameResult,
+  saveChoiceGameResult,
 };

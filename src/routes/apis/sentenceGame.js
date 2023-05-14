@@ -5,7 +5,7 @@ import { Role } from "../../constant";
 const posTagging = {
   method: Method.GET,
   path: "/api/v1/games/sentence/pos",
-  auth: false,
+  auth: true,
   permissions: [Role.ANY],
   middlewares: [],
   task: sentenceGameTask.getPosTagging,
@@ -15,7 +15,7 @@ const posTagging = {
 const tokenize = {
   method: Method.GET,
   path: "/api/v1/games/sentence/tokenize",
-  auth: false,
+  auth: true,
   permissions: [Role.ANY],
   middlewares: [],
   task: sentenceGameTask.getTokenize,
@@ -25,7 +25,7 @@ const tokenize = {
 const newSentence = {
   method: Method.POST,
   path: "/api/v1/games/sentence",
-  auth: false,
+  auth: true,
   permissions: [Role.ANY],
   middlewares: [],
   task: sentenceGameTask.newGameSentence,
@@ -35,7 +35,7 @@ const newSentence = {
 const deleteSentence = {
   method: Method.DELETE,
   path: "/api/v1/games/sentence/:id",
-  auth: false,
+  auth: true,
   permissions: [Role.ANY],
   middlewares: [],
   task: sentenceGameTask.deleteGameSentence,
@@ -62,6 +62,16 @@ const randomSentence = {
   description: "get a random sentence for game sorting",
 };
 
+const randomChoices = {
+  method: Method.GET,
+  path: "/api/v1/games/choice/random",
+  auth: false,
+  permissions: [Role.ANY],
+  middlewares: [],
+  task: sentenceGameTask.getRandomGameChoice,
+  description: "get a random sentence and choices",
+};
+
 const saveSortGameResult = {
   method: Method.POST,
   path: "/api/v1/games/sort/result",
@@ -72,6 +82,16 @@ const saveSortGameResult = {
   description: "save result for sort game sentence",
 };
 
+const saveChoiceGameResult = {
+  method: Method.POST,
+  path: "/api/v1/games/choice/result",
+  auth: true,
+  permissions: [Role.USER],
+  middlewares: [],
+  task: sentenceGameTask.saveChoiceGameResult,
+  description: "save result for choice game sentence",
+};
+
 module.exports = {
   posTagging,
   newSentence,
@@ -80,4 +100,6 @@ module.exports = {
   tokenize,
   randomSentence,
   saveSortGameResult,
+  saveChoiceGameResult,
+  randomChoices,
 };

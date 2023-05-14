@@ -1,4 +1,4 @@
-import { vntkService } from "../../services/utils";
+import { vntkService, wordOutService } from "../../services/utils";
 import { sentenceGameService } from "../../services/core";
 
 const getPosTagging = async (req, res) => {
@@ -160,6 +160,90 @@ const saveSortGameResult = async (req, res) => {
   });
 };
 
+const saveChoiceGameResult = async (req, res) => {
+  const auth = req?.middlewareStorage?.authorization;
+  if (!auth?._id) {
+    return res.status(500).json({
+      status: 500,
+      err: "Internal server error. Invalid Token cause by login method",
+    });
+  }
+  const userId = auth._id;
+  const { sentenceId, correct } = req.body;
+  if (!sentenceId) {
+    return res.status(400).json({
+      err: `No sentence id found in request body`,
+      status: 400,
+    });
+  }
+  if (!correct) {
+    return res.status(400).json({
+      err: `No correct result found in request body`,
+      status: 400,
+    });
+  }
+  const sentenceDB = await sentenceGameService.findSentenceById(sentenceId);
+  if (!sentenceDB) {
+    return res.status(404).json({
+      err: `No sentence with id ${sentenceId} found`,
+      status: 404,
+    });
+  }
+  const gameHistory = await sentenceGameService.saveChoiceGameResult(
+    userId,
+    sentenceId,
+    correct
+  );
+
+  if (!gameHistory) {
+    return res.status(500).json({
+      err: "Internal server error",
+      status: 500,
+    });
+  }
+  return res.status(200).json({
+    data: gameHistory,
+    status: 200,
+  });
+};
+
+const getRandomGameChoice = async (req, res) => {
+  const sample = await sentenceGameService.getRandomGameSentence();
+  if (!sample) {
+    return res.status(500).json({
+      err: "Internal server error",
+      status: 500,
+    });
+  }
+
+  const tokens = vntkService.tokenize(sample.sentence);
+  const indexes = [];
+  tokens.forEach((token, index) => {
+    if (token.length > 1) {
+      indexes.push(index);
+    }
+  });
+  const rand = Math.floor(Math.random() * indexes.length);
+  const randIndex = indexes[rand];
+  const randWord = tokens[randIndex];
+  const choices = await wordOutService.getChoices(randWord);
+  choices.push(randWord);
+  choices.sort(() => Math.random() - 0.5);
+
+  const data = {
+    _id: sample._id,
+    sentence: sample.sentence,
+    tokenize: vntkService.tokenize(sample.sentence),
+    missIndex: randIndex,
+    missWord: randWord,
+    choices: choices,
+  };
+  return res.status(200).json({
+    data: data,
+    status: 200,
+  });
+};
+
 module.exports = {
   getPosTagging,
   newGameSentence,
@@ -168,4 +252,6 @@ module.exports = {
   getTokenize,
   getRandomGameSentence,
   saveSortGameResult,
+  saveChoiceGameResult,
+  getRandomGameChoice,
 };

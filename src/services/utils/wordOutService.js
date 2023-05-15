@@ -2,7 +2,23 @@ const dictionary = require("@vntk/dictionary");
 import axios from "axios";
 import { parse } from "node-html-parser";
 const gis = require("g-i-s");
+import fs from "fs";
+import path from "path";
 const ImageScraper = require("images-scraper");
+const dic_roles = (() => {
+  let data = null;
+  try {
+    const json = fs.readFileSync(
+      path.resolve(__dirname, "../../public/resource/dict_roles.json")
+    );
+    if (json) {
+      data = JSON.parse(json);
+    }
+  } catch (error) {
+    return null;
+  }
+  return data;
+})();
 
 const google = new ImageScraper({
   puppeteer: {
@@ -13,6 +29,42 @@ const google = new ImageScraper({
 const getExamplesSingleWord = async (word) => {
   const senses = dictionary.lookup(word);
   return senses;
+};
+
+const getChoiceByRole = async (word, role) => {
+  let choices = [];
+  if (dic_roles) {
+    const roleChoices = dic_roles[role];
+    if (roleChoices) {
+      choices.push(...roleChoices);
+    }
+    Object.entries(dic_roles).forEach(([key, words]) => {
+      if (key !== role && choices.length <= 50) {
+        choices.push(...words);
+      }
+    });
+  }
+  if (choices.length <= 50) {
+    choices = dictionary.words;
+  }
+  const len = word.trim().split(" ").length;
+  const randWords = ((num) => {
+    const arr = [];
+    while (arr.length < num) {
+      const randIndex = Math.floor(Math.random() * choices.length);
+      const randWord = choices[randIndex];
+      const wordCount = randWord.trim().split(" ").length;
+      if (
+        len === wordCount &&
+        !randWord.includes("-") &&
+        !arr.includes(randWord)
+      ) {
+        arr.push(randWord);
+      }
+    }
+    return arr;
+  })(3);
+  return randWords;
 };
 
 const getChoices = async (word) => {
@@ -139,4 +191,5 @@ module.exports = {
   searchImages,
   searchGISImages,
   getChoices,
+  getChoiceByRole,
 };

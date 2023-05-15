@@ -5,7 +5,7 @@ import { Role } from "../../constant";
 const posTagging = {
   method: Method.GET,
   path: "/api/v1/games/sentence/pos",
-  auth: true,
+  auth: false,
   permissions: [Role.ANY],
   middlewares: [],
   task: sentenceGameTask.getPosTagging,
@@ -15,7 +15,7 @@ const posTagging = {
 const tokenize = {
   method: Method.GET,
   path: "/api/v1/games/sentence/tokenize",
-  auth: true,
+  auth: false,
   permissions: [Role.ANY],
   middlewares: [],
   task: sentenceGameTask.getTokenize,

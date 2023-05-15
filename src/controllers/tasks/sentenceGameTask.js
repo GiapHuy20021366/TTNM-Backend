@@ -216,17 +216,18 @@ const getRandomGameChoice = async (req, res) => {
     });
   }
 
-  const tokens = vntkService.tokenize(sample.sentence);
+  const poses = vntkService.posTagging(sample.sentence);
   const indexes = [];
-  tokens.forEach((token, index) => {
-    if (token.length > 1) {
+  poses.forEach((pos, index) => {
+    if (pos[0].length > 1) {
       indexes.push(index);
     }
   });
   const rand = Math.floor(Math.random() * indexes.length);
   const randIndex = indexes[rand];
-  const randWord = tokens[randIndex];
-  const choices = await wordOutService.getChoices(randWord);
+  const randWord = poses[randIndex][0];
+  const randRole = poses[randIndex][1];
+  const choices = await wordOutService.getChoiceByRole(randWord, randRole);
   choices.push(randWord);
   choices.sort(() => Math.random() - 0.5);
 
@@ -236,6 +237,7 @@ const getRandomGameChoice = async (req, res) => {
     tokenize: vntkService.tokenize(sample.sentence),
     missIndex: randIndex,
     missWord: randWord,
+    missRole: randRole,
     choices: choices,
   };
   return res.status(200).json({

@@ -234,7 +234,9 @@ const getSentencesOfBook = async (req, res) => {
   });
 
   const tokens = filterSentences.map((sentence, index) => {
-    const cvtSentence = sentence.trim().replaceAll("\\n", " break ") + ".";
+    let cvtSentence = sentence.trim().replaceAll("\\n", " break ") + ".";
+    cvtSentence = cvtSentence.replaceAll("\n", " break ");
+
     const originSentence = cvtSentence.replaceAll(" break ", "");
     const dx = {
       _id: index + startIndex,

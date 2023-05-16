@@ -99,6 +99,7 @@ const findBookByQuery = async (query) => {
     arrQuery.push({
       title: {
         $regex: bookName,
+        $options: "i",
       },
     });
 

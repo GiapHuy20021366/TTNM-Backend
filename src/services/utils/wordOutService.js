@@ -176,6 +176,7 @@ const searchGISImages = async (word) => {
   return new Promise((resolve, reject) => {
     gis(`Ảnh minh họa từ: ${word}`, (err, results) => {
       if (err) {
+        console.log(err);
         reject(err);
       } else {
         resolve(results);

@@ -4,6 +4,7 @@ import { parse } from "node-html-parser";
 const gis = require("g-i-s");
 import fs from "fs";
 import path from "path";
+import googleThis from "googlethis";
 const ImageScraper = require("images-scraper");
 const dic_roles = (() => {
   let data = null;
@@ -144,7 +145,7 @@ const crawlWordRoles = async (word) => {
 
 const scrapeImages = async (word, limit = 5) => {
   try {
-    const results = await google.scrape(word, 5);
+    const results = await google.scrape(`Ảnh minh họa từ: ${word}`, limit);
     return results;
   } catch (error) {
     console.log(error);
@@ -179,10 +180,26 @@ const searchGISImages = async (word) => {
         console.log(err);
         reject(err);
       } else {
+        // console.log(results);
         resolve(results);
       }
     });
   });
+};
+
+const searchGoogleThisImages = async (word) => {
+  const images = await googleThis
+    .image(`Ảnh minh họa từ: ${word}`, {
+      safe: true,
+      additional_params: {
+        hl: "vi",
+      },
+    })
+    .catch((err) => {
+      console.log(err);
+      return [];
+    });
+  return images || [];
 };
 
 module.exports = {
@@ -193,4 +210,5 @@ module.exports = {
   searchGISImages,
   getChoices,
   getChoiceByRole,
+  searchGoogleThisImages,
 };

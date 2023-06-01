@@ -193,6 +193,8 @@ const searchGoogleThisImages = async (word) => {
       safe: true,
       additional_params: {
         hl: "vi",
+        cr: "vn",
+        lr: "vi",
       },
     })
     .catch((err) => {

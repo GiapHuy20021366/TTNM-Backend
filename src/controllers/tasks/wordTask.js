@@ -32,8 +32,8 @@ const getWordIllustrations = async (req, res) => {
     });
   }
   // const wordImages = await wordOutService.scrapeImages(word);
-  // const wordImages = await wordOutService.searchGISImages(word);
-  const wordImages = await wordOutService.searchGoogleThisImages(word);
+  const wordImages = await wordOutService.searchGISImages(word);
+  // const wordImages = await wordOutService.searchGoogleThisImages(word);
   // const wordImages = await wordOutService.searchImages(word);
   return res.status(200).json({
     data: wordImages,

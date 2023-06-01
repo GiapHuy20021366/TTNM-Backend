@@ -16,22 +16,16 @@
 ## Some pictures of application
 1. Login UI <br>
    ![Game UI](./preview-images/login.png)
-<br>
 2. Register UI <br>
    ![Game UI](./preview-images/register.png)
-<br>
 3. Read book UI <br>
    ![Game UI](./preview-images/book.png)
-<br>
 4. Note UI <br>
    ![Game UI](./preview-images/note.png)
-<br>
 5. Review words noted UI <br>
    ![Game UI](./preview-images/words.png)
-<br>
 6. Game UI <br>
    ![Game UI](./preview-images/sort-game.png)
-<br>
    ![Game UI](./preview-images/choose-game.png)
 
 

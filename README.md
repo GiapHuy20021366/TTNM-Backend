@@ -14,18 +14,24 @@
 > **You maybe need to see the frontend side:** [HMI-frontend](https://github.com/manhhungpc/HMI-frontend)
 
 ## Some pictures of application
-1. Login UI
+1. Login UI <br>
    ![Game UI](./preview-images/login.png)
-2. Register UI
+<br>
+2. Register UI <br>
    ![Game UI](./preview-images/register.png)
-3. Read book UI
+<br>
+3. Read book UI <br>
    ![Game UI](./preview-images/book.png)
-4. Note UI
+<br>
+4. Note UI <br>
    ![Game UI](./preview-images/note.png)
-5. Review words noted UI
+<br>
+5. Review words noted UI <br>
    ![Game UI](./preview-images/words.png)
-6. Game UI
+<br>
+6. Game UI <br>
    ![Game UI](./preview-images/sort-game.png)
+<br>
    ![Game UI](./preview-images/choose-game.png)
 
 
